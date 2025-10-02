@@ -1,0 +1,137 @@
+{
+  "nav": {
+    "orders": "Orders",
+    "search": "Search...",
+    "notifications": "Notifications",
+    "cart": "Shopping cart"
+  },
+  "sidebar": {
+    "ecommerce": "E-Commerce",
+    "dashboard": "Dashboard",
+    "orders": "Orders",
+    "detail": "Detail",
+    "products": "Products",
+    "buyer": "Buyer",
+    "customers": "Customers",
+    "invoices": "Invoices",
+    "apps": "Apps",
+    "chats": "Chats",
+    "email": "Email",
+    "todo": "Todo App",
+    "pages": "Pages",
+    "profile": "Profile",
+    "users": "Users",
+    "authentication": "Authentication",
+    "error": "Error Pages",
+    "salesManager": "Sales Manager",
+    "listView": "List View",
+    "gridView": "Grid View",
+    "productDetail": "Product Detail",
+    "shoppingCart": "Shopping Cart",
+    "checkout": "Checkout"
+  },
+  "orders": {
+    "breadcrumb": {
+      "dashboard": "Dashboard",
+      "orders": "Orders"
+    },
+    "filters": {
+      "allOrders": "All Orders",
+      "processing": "Processing",
+      "shipped": "Shipped",
+      "completed": "Completed",
+      "refunded": "Refunded",
+      "cancelled": "Cancelled",
+      "sort": "Sort",
+      "sortByTotal": "Sort by Total",
+      "sortByName": "Sort by Name",
+      "search": "Search",
+      "actions": "Actions +"
+    },
+    "table": {
+      "id": "ID",
+      "name": "Name",
+      "date": "Date",
+      "total": "Total",
+      "status": "Status",
+      "actions": "Actions",
+      "selectAll": "Select all orders"
+    },
+    "status": {
+      "processing": "Processing",
+      "shipped": "Shipped",
+      "completed": "Completed",
+      "refunded": "Refunded",
+      "cancelled": "Cancelled"
+    },
+    "actionsMenu": {
+      "export": "Export Orders",
+      "print": "Print Orders",
+      "delete": "Delete Selected",
+      "markShipped": "Mark as Shipped"
+    }
+  },
+  "footer": {
+    "copyright": "© {{year}} JinStore -",
+    "themesLink": "Blackblue Themes",
+    "licenses": "Licenses",
+    "changelog": "Change Log",
+    "help": "Get Help"
+  },
+  "pagination": {
+    "previous": "Previous page",
+    "next": "Next page",
+    "page": "Page {{page}}"
+  },
+  "products": {
+    "title": "Products",
+    "addProduct": "Add Product",
+    "breadcrumb": {
+      "dashboard": "Dashboard",
+      "products": "Products"
+    },
+    "filters": {
+      "allProducts": "All Products",
+      "beverages": "Beverages",
+      "snacks": "Snacks",
+      "food": "Food",
+      "sort": "Sort",
+      "sortPriceLow": "Price: Low to High",
+      "sortPriceHigh": "Price: High to Low",
+      "sortRating": "Rating",
+      "actions": "Actions +"
+    },
+    "filterSidebar": {
+      "title": "Filter Products",
+      "keywords": "Keywords",
+      "keywordsPlaceholder": "Phone, Headphone, Shoe...",
+      "categories": "Categories",
+      "all": "All",
+      "accessories": "Accessories",
+      "phone": "Phone",
+      "headphone": "Headphone",
+      "camera": "Camera",
+      "price": "Price",
+      "colors": "Colors"
+    },
+    "card": {
+      "addToCart": "Add to Cart",
+      "inCart": "In Cart",
+      "addToWishlist": "Add to wishlist"
+    }
+  },
+  "cart": {
+    "title": "Shopping Cart",
+    "itemCount": "{{count}} items in your cart",
+    "empty": "Your cart is empty",
+    "subtotal": "Subtotal:",
+    "shipping": "Shipping:",
+    "tax": "Tax:",
+    "total": "Total:",
+    "orderSummary": "Order Summary",
+    "continueShopping": "Continue Shopping",
+    "viewCart": "View Cart",
+    "checkout": "Checkout",
+    "remove": "Remove from cart"
+  }
+}

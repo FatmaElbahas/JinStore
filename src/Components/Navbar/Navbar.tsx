@@ -1,0 +1,41 @@
+import SearchBar from './SearchBar.tsx';
+import NavbarActions from './NavbarActions.tsx';
+import LanguageSwitcher from '../LanguageSwitcher/LanguageSwitcher.tsx';
+import MobileMenu from '../MobileMenu/MobileMenu.tsx';
+import { NavbarProps } from '../../types/index.ts';
+import { useTranslation } from 'react-i18next';
+import { useLocation } from 'react-router-dom';
+import { useCart } from '../../context/CartContext';
+
+export default function Navbar({ onSearch, notifications = 3 }: Omit<NavbarProps, 'cartItems'>) {
+  const { t } = useTranslation();
+  const location = useLocation();
+  const isProductsPage = location.pathname.includes('/products');
+  const { itemCount } = useCart();
+  
+  return (
+    <header className={`sticky top-0 z-50 bg-primary-50 h-[90px] flex items-center py-4 justify-between gap-4 md:gap-8 ${
+      isProductsPage ? 'pl-2 pr-4 md:pl-2 md:pr-4' : 'px-4 md:px-8'
+    }`} role="banner">
+      <div className="flex items-center gap-4">
+        <MobileMenu />
+        <h2 className="text-gray-900 flex-shrink-0 align-middle font-poppins font-medium text-[25px] leading-[37.5px]">
+          {isProductsPage ? t('products.title') : t('nav.orders')}
+        </h2>
+      </div>
+      <div className="hidden md:flex flex-1">
+        <SearchBar onChange={onSearch} />
+      </div>
+      <div className="flex items-center gap-2 md:gap-4">
+        <LanguageSwitcher />
+        {isProductsPage && (
+          <button className="px-4 py-2 bg-primary-100 text-white rounded-lg text-sm font-medium hover:bg-primary-200 transition-colors flex items-center gap-2">
+            <span className="text-lg">+</span>
+            {t('products.addProduct')}
+          </button>
+        )}
+        <NavbarActions notifications={notifications} cartItems={itemCount} />
+      </div>
+    </header>
+  );
+}
