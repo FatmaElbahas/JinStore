@@ -49,10 +49,10 @@ export default function Orders() {
         <title>{t('nav.orders')} - JinStore</title>
         <meta name="description" content="Manage and track all your orders in one place. View order status, filter, and search orders easily." />
       </Helmet>
-      <main className="flex-1 overflow-y-auto flex flex-col">
+      <main className="flex-1 overflow-y-auto flex flex-col bg-primary-50">
         <Navbar onSearch={handleSearch} />
       
-      <div className="flex-1 px-3 sm:px-4 md:px-8 pt-4 sm:pt-6 md:pt-8 pb-4">
+      <div className="flex-1 px-3 sm:px-4 md:px-8 pt-4 sm:pt-6 md:pt-8 pb-4 bg-primary-50">
         <h1 className="sr-only">{t('nav.orders')}</h1>
         <OrdersHeader />
         

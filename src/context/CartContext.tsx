@@ -1,5 +1,8 @@
 import { createContext, useContext, useState, useEffect, ReactNode } from 'react';
 
+// Default product image
+const DEFAULT_IMAGE = new URL('../assets/Images/scarmblar.svg', import.meta.url).href;
+
 interface CartItem {
   id: number;
   name: string;
@@ -30,10 +33,10 @@ export function CartProvider({ children }: { children: ReactNode }) {
       try {
         return JSON.parse(savedCart);
       } catch {
-        return [{ id: 3, name: 'Oscar Mayer Ham & Swiss Melt', price: 1599.00, quantity: 2, image: '🥘' }];
+        return [{ id: 3, name: 'Oscar Mayer Ham & Swiss Melt', price: 1599.00, quantity: 2, image: DEFAULT_IMAGE }];
       }
     }
-    return [{ id: 3, name: 'Oscar Mayer Ham & Swiss Melt', price: 1599.00, quantity: 2, image: '🥘' }];
+    return [{ id: 3, name: 'Oscar Mayer Ham & Swiss Melt', price: 1599.00, quantity: 2, image: DEFAULT_IMAGE }];
   });
 
   useEffect(() => {
@@ -53,7 +56,13 @@ export function CartProvider({ children }: { children: ReactNode }) {
             : item
         );
       }
-      return [...prev, { ...product, quantity: 1 }];
+      // Ensure image is always present
+      const newItem = { 
+        ...product, 
+        quantity: 1,
+        image: product.image || DEFAULT_IMAGE 
+      };
+      return [...prev, newItem];
     });
   };
 

@@ -133,5 +133,18 @@
     "viewCart": "View Cart",
     "checkout": "Checkout",
     "remove": "Remove from cart"
+  },
+  "error": {
+    "title": "Oops! Page Not Found",
+    "description": "The page you're looking for might have been moved, deleted, or possibly never existed in the first place.",
+    "backHome": "Back to Home",
+    "browseProducts": "Browse Products",
+    "helpText": "Need help?",
+    "contactSupport": "Contact Support"
+  },
+  "loading": {
+    "message": "Loading...",
+    "pleaseWait": "Please wait",
+    "fetchingData": "Fetching data"
   }
 }

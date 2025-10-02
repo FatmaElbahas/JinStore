@@ -27,7 +27,7 @@ export default function PageLayout({ children, title = 'JinStore', description =
         <meta name="twitter:description" content={description} />
         <meta name="twitter:image" content={LOGO} />
       </Helmet>
-      <main className="flex-1 overflow-y-auto flex flex-col">
+      <main className="flex-1 overflow-y-auto flex flex-col bg-primary-50">
         <Navbar onSearch={onSearch} />
         {children}
         <Footer />

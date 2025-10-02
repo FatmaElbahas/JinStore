@@ -8,6 +8,8 @@ import ProductsListView from './Pages/Products/ProductsListView';
 import ProductDetail from './Pages/Products/ProductDetail';
 import ShoppingCart from './Pages/Products/ShoppingCart';
 import Checkout from './Pages/Products/Checkout';
+import NotFound from './Pages/NotFound';
+import LoadingDemo from './Pages/LoadingDemo';
 
 function App() {
   const { i18n } = useTranslation();
@@ -25,7 +27,10 @@ function App() {
         Skip to main content
       </a>
       <div className="flex h-screen overflow-hidden gap-5">
-        <Sidebar />
+        {/* Sidebar - Hidden on mobile & tablet, visible only on large screens (laptops) */}
+        <div className="hidden lg:block">
+          <Sidebar />
+        </div>
         <div id="main-content" role="main" className="flex-1 overflow-y-auto">
           <Routes>
             <Route path="/" element={<Orders />} />
@@ -35,6 +40,9 @@ function App() {
             <Route path="/products/detail" element={<ProductDetail />} />
             <Route path="/products/cart" element={<ShoppingCart />} />
             <Route path="/products/checkout" element={<Checkout />} />
+            <Route path="/loading-demo" element={<LoadingDemo />} />
+            {/* Catch all route - 404 Page */}
+            <Route path="*" element={<NotFound />} />
           </Routes>
         </div>
       </div>

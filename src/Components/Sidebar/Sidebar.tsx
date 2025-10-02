@@ -37,7 +37,11 @@ interface MenuSection {
   items: MenuItem[];
 }
 
-export default function Sidebar() {
+interface SidebarProps {
+  onLinkClick?: () => void;
+}
+
+export default function Sidebar({ onLinkClick }: SidebarProps = {}) {
   const location = useLocation();
   const [expandedMenu, setExpandedMenu] = useState<string | null>(null);
   const { t } = useTranslation();
@@ -99,33 +103,25 @@ export default function Sidebar() {
 
   // Auto-expand menu if submenu item is active
   useEffect(() => {
-    menuSections.forEach(section => {
-      section.items.forEach(item => {
+    for (const section of menuSections) {
+      for (const item of section.items) {
         if (item.submenu && isSubmenuActive(item.submenu)) {
           setExpandedMenu(item.id);
+          return; // Exit early once found
         }
-      });
-    });
+      }
+    }
   }, [location.pathname]);
 
   return (
-    <aside className="h-screen bg-primary-50 overflow-y-auto flex-shrink-0 scrollbar-hide hidden lg:block lg:w-[21%]" role="navigation" aria-label="Main navigation">
-      <div>
-        <div 
-          className="flex items-center"
-          style={{
-            width: '100%',
-            height: '98px',
-            opacity: 1,
-            // paddingRight: '24px',
-            paddingBottom: '8px',
-            // paddingLeft: '24px'
-          }}
-        >
+    <aside className="h-full lg:h-screen bg-primary-50 overflow-y-auto flex-shrink-0 scrollbar-hide w-full lg:w-[280px]" role="navigation" aria-label="Main navigation">
+      <div className="w-full">
+        {/* Logo - visible on both mobile and desktop */}
+        <div className="flex items-center justify-center lg:justify-start w-full h-[98px] pb-2 px-4 lg:px-0">
           <img 
             src={LOGO} 
             alt="JinStore Logo" 
-            className="object-contain"
+            className="object-contain max-h-20"
             style={{
               maxWidth: '100%',
               height: 'auto'
@@ -133,20 +129,8 @@ export default function Sidebar() {
           />
         </div>
         
-        <div 
-          className="flex items-center gap-3 relative"
-          style={{
-            width: 'calc(100% - 32px)',
-            height: '70px',
-            opacity: 1,
-            top: '-6px',
-            paddingTop: '8px',
-            paddingBottom: '8px',
-            backgroundColor: '#FFFFFF',
-            marginLeft: '24px',
-            marginRight: '0px'
-          }}
-        >
+        {/* Profile Card - visible on both mobile and desktop */}
+        <div className="flex items-center gap-3 relative bg-white h-[70px] py-2 mx-4 lg:mx-6 -mt-1.5 rounded-lg px-3">
           <div className="w-10 h-10 bg-gray-900 rounded-full flex items-center justify-center text-white font-semibold">
             B
           </div>
@@ -163,8 +147,8 @@ export default function Sidebar() {
 
       <nav className="p-4" aria-label="Main navigation">
         {menuSections.map((section) => (
-          <div key={section.title} className="mb-6">
-            <h3 className="px-3 mb-2 text-xs font-semibold text-gray-500 uppercase tracking-wider">
+          <div key={section.title} className="mb-4 lg:mb-6">
+            <h3 className="px-3 lg:px-6 mb-2 text-xs font-semibold text-gray-500 uppercase tracking-wider">
               {section.title}
             </h3>
             <ul>
@@ -173,25 +157,9 @@ export default function Sidebar() {
                 {item.submenu ? (
                   <button
                     onClick={() => setExpandedMenu(expandedMenu === item.id ? null : item.id)}
-                    className={`flex items-center gap-3 transition-colors text-gray-700
+                    className={`flex items-center gap-3 transition-colors text-gray-700 w-full lg:w-[calc(100%-24px)] h-[43px] rounded-full py-2.5 px-4 lg:px-6 text-[15px] leading-[22.5px] font-normal
                       ${isSubmenuActive(item.submenu) ? 'bg-white' : 'hover:bg-gray-100'}
                     `}
-                      style={{ 
-                        width: 'calc(100% - 24px)',
-                        height: '43px',
-                        borderRadius: '80px',
-                        paddingTop: '10px',
-                        paddingRight: '0px',
-                        paddingBottom: '10px',
-                        paddingLeft: '24px',
-                        borderRightWidth: '4px',
-                        borderLeftWidth: '4px',
-                        borderColor: 'transparent',
-                        fontSize: '15px', 
-                        lineHeight: '22.5px', 
-                        fontWeight: 400,
-                        opacity: 1
-                      }}
                     >
                     <img 
                       src={item.icon} 
@@ -214,27 +182,12 @@ export default function Sidebar() {
                 ) : (
                   <Link
                     to={item.path || '#'}
-                    className={`flex items-center gap-3 transition-colors
+                    onClick={onLinkClick}
+                    className={`flex items-center gap-3 transition-colors w-full lg:w-[calc(100%-24px)] h-[43px] rounded-full py-2.5 px-4 lg:px-6 text-[15px] leading-[22.5px] font-normal
                       ${isPathActive(item.path) 
                         ? 'bg-primary-100 text-white' 
                         : 'text-gray-700 hover:bg-gray-100'
                       }`}
-                      style={{ 
-                        width: 'calc(100% - 24px)',
-                        height: '43px',
-                        borderRadius: '80px',
-                        paddingTop: '10px',
-                        paddingRight: '0px',
-                        paddingBottom: '10px',
-                        paddingLeft: '24px',
-                        borderRightWidth: '4px',
-                        borderLeftWidth: '4px',
-                        borderColor: 'transparent',
-                        fontSize: '15px', 
-                        lineHeight: '22.5px', 
-                        fontWeight: 400,
-                        opacity: 1
-                      }}
                     >
                     <img 
                       src={item.icon} 
@@ -260,32 +213,17 @@ export default function Sidebar() {
                   )}
                   
                   {item.submenu && expandedMenu === item.id && (
-                    <ul className="mt-2 space-y-2 ps-8">
+                    <ul className="mt-2 space-y-2 ps-4 lg:ps-8">
                       {item.submenu.map((subItem) => (
                         <li key={subItem.id}>
                           <Link
                             to={subItem.path}
-                            className={`flex items-center transition-colors
+                            onClick={onLinkClick}
+                            className={`flex items-center transition-colors w-full h-[43px] rounded-full py-2.5 px-4 lg:px-6 text-[15px] leading-[22.5px] font-normal
                               ${isPathActive(subItem.path)
                                 ? 'text-white bg-primary-100 font-medium'
                                 : 'text-gray-600 hover:text-primary-100 hover:bg-gray-50'
                               }`}
-                            style={{ 
-                              width: '270px',
-                              height: '43px',
-                              borderRadius: '80px',
-                              paddingTop: '10px',
-                              paddingRight: '0px',
-                              paddingBottom: '10px',
-                              paddingLeft: '24px',
-                              borderRightWidth: '4px',
-                              borderLeftWidth: '4px',
-                              borderColor: 'transparent',
-                              fontSize: '15px', 
-                              lineHeight: '22.5px', 
-                              fontWeight: 400,
-                              opacity: 1
-                            }}
                           >
                             {subItem.label}
                           </Link>
