@@ -20,12 +20,12 @@ const PRODUCT_IMAGES = {
 };
 
 const PRODUCTS: Product[] = [
-  { id: 1, name: 'Simply Orange Pulp-Free Juice - 52 fl OZ', price: 499.90, oldPrice: 800, rating: 4, reviews: 25, image: PRODUCT_IMAGES.orange, category: 'beverages' },
-  { id: 2, name: "Lay's Classic Potato Snack Chips, Party Size! 13 oz Bag", price: 1190.90, rating: 4, reviews: 40, image: PRODUCT_IMAGES.layes, category: 'snacks' },
-  { id: 3, name: 'Oscar Mayer Ham & Swiss Melt Scrambles - Jar', price: 1599.00, rating: 5, reviews: 8, image: PRODUCT_IMAGES.scarmblar, category: 'food' },
-  { id: 4, name: 'Large Garden Spinach & Herb Wrap Tortillas - 15oz, 6ct', price: 10.00, rating: 4, reviews: 0, image: PRODUCT_IMAGES.trotaills, category: 'food' },
-  { id: 5, name: 'Great Value Rising Crust Pizza, Supreme', price: 30.00, rating: 4, reviews: 5, image: PRODUCT_IMAGES.pizza, category: 'food' },
-  { id: 6, name: 'Real Plant Powered Protein Shake - Double Chocolate', price: 25.00, rating: 4, reviews: 8, image: PRODUCT_IMAGES.protein, category: 'beverages' },
+  { id: 1, name: 'Simply Orange Pulp-Free Juice - 52 fl OZ', price: 499.90, oldPrice: 800, rating: 4, reviews: 25, image: PRODUCT_IMAGES.orange, category: 'beverages', color: 'orange' },
+  { id: 2, name: "Lay's Classic Potato Snack Chips, Party Size! 13 oz Bag", price: 1190.90, rating: 4, reviews: 40, image: PRODUCT_IMAGES.layes, category: 'snacks', color: 'lime' },
+  { id: 3, name: 'Oscar Mayer Ham & Swiss Melt Scrambles - Jar', price: 1599.00, rating: 5, reviews: 8, image: PRODUCT_IMAGES.scarmblar, category: 'food', color: 'pink' },
+  { id: 4, name: 'Large Garden Spinach & Herb Wrap Tortillas - 15oz, 6ct', price: 10.00, rating: 4, reviews: 0, image: PRODUCT_IMAGES.trotaills, category: 'food', color: 'mint' },
+  { id: 5, name: 'Great Value Rising Crust Pizza, Supreme', price: 30.00, rating: 4, reviews: 5, image: PRODUCT_IMAGES.pizza, category: 'food', color: 'green' },
+  { id: 6, name: 'Real Plant Powered Protein Shake - Double Chocolate', price: 25.00, rating: 4, reviews: 8, image: PRODUCT_IMAGES.protein, category: 'beverages', color: 'blue' },
 ];
 
 export default function ProductsGridView() {
@@ -80,8 +80,12 @@ export default function ProductsGridView() {
         }
       }
 
-      // Colors filter - this would need color data in products
-      // For now, we'll skip this as products don't have color property
+      // Colors filter
+      if (sidebarFilters.colors && sidebarFilters.colors.length > 0) {
+        if (!product.color || !sidebarFilters.colors.includes(product.color)) {
+          return false;
+        }
+      }
     }
 
     return true;

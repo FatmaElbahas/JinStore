@@ -12,7 +12,7 @@ export default function FilterSidebar({ onFilterChange }: FilterSidebarProps) {
   const { t } = useTranslation();
   const [keyword, setKeyword] = useState('');
   const [selectedCategories, setSelectedCategories] = useState<string[]>(['all']);
-  const [priceRange, setPriceRange] = useState<[number, number]>([1, 2000]);
+  const [priceRange, setPriceRange] = useState<[number, number]>([1, 1000]);
   const [selectedColors, setSelectedColors] = useState<string[]>([]);
   const [expandedSections, setExpandedSections] = useState({
     keywords: true,
@@ -39,12 +39,12 @@ export default function FilterSidebar({ onFilterChange }: FilterSidebarProps) {
   ];
 
   const colors = [
-    { id: 'cyan', color: 'bg-cyan-500' },
-    { id: 'green', color: 'bg-green-500' },
-    { id: 'pink', color: 'bg-pink-500' },
-    { id: 'lime', color: 'bg-lime-500' },
-    { id: 'yellow', color: 'bg-yellow-500' },
-    { id: 'orange', color: 'bg-orange-500' },
+    { id: 'blue', color: '#1FA0C6', name: 'Blue' },
+    { id: 'green', color: '#008000', name: 'Green' },
+    { id: 'pink', color: '#C61FAA', name: 'Pink' },
+    { id: 'mint', color: '#1FC662', name: 'Mint' },
+    { id: 'lime', color: '#9DC61F', name: 'Lime' },
+    { id: 'orange', color: '#C67B1F', name: 'Orange' },
   ];
 
   const toggleSection = (section: keyof typeof expandedSections) => {
@@ -146,43 +146,24 @@ export default function FilterSidebar({ onFilterChange }: FilterSidebarProps) {
             />
           </button>
           {expandedSections.price && (
-            <div className="space-y-2 mt-1">
-              <div className="flex items-center gap-2">
-                <div className="flex items-center gap-1 px-3 py-1.5 bg-gray-50 rounded border border-gray-200">
-                  <span className="text-xs text-gray-600">$</span>
-                  <input
-                    type="number"
-                    value={priceRange[0]}
-                    onChange={(e) => setPriceRange([parseInt(e.target.value) || 1, priceRange[1]])}
-                    className="w-12 bg-transparent text-sm font-medium text-gray-900 focus:outline-none"
-                  />
-                </div>
-                <span className="text-gray-400">-</span>
-                <div className="flex items-center gap-1 px-3 py-1.5 bg-gray-50 rounded border border-gray-200">
-                  <span className="text-xs text-gray-600">$</span>
-                  <input
-                    type="number"
-                    value={priceRange[1]}
-                    onChange={(e) => setPriceRange([priceRange[0], parseInt(e.target.value) || 2000])}
-                    className="w-16 bg-transparent text-sm font-medium text-gray-900 focus:outline-none"
-                  />
-                </div>
-              </div>
-              
-              <div className="relative pt-4 pb-1">
-                <div className="relative h-1.5 bg-gray-200 rounded-full">
+            <div className="space-y-4 mt-3">
+              <div className="relative pt-8 pb-2">
+                {/* Track */}
+                <div className="relative h-1 bg-gray-200 rounded-full">
+                  {/* Active range */}
                   <div
                     className="absolute h-full bg-primary-100 rounded-full"
                     style={{
-                      left: `${(priceRange[0] / 2000) * 100}%`,
-                      right: `${100 - (priceRange[1] / 2000) * 100}%`
+                      left: `${(priceRange[0] / 1000) * 100}%`,
+                      right: `${100 - (priceRange[1] / 1000) * 100}%`
                     }}
                   />
                   
+                  {/* Min range slider */}
                   <input
                     type="range"
                     min="1"
-                    max="2000"
+                    max="1000"
                     value={priceRange[0]}
                     onChange={(e) => {
                       const val = parseInt(e.target.value);
@@ -190,14 +171,15 @@ export default function FilterSidebar({ onFilterChange }: FilterSidebarProps) {
                         setPriceRange([val, priceRange[1]]);
                       }
                     }}
-                    className="absolute w-full h-1.5 bg-transparent appearance-none pointer-events-none [&::-webkit-slider-thumb]:pointer-events-auto [&::-webkit-slider-thumb]:appearance-none [&::-webkit-slider-thumb]:w-4 [&::-webkit-slider-thumb]:h-4 [&::-webkit-slider-thumb]:bg-primary-100 [&::-webkit-slider-thumb]:rounded-full [&::-webkit-slider-thumb]:cursor-pointer [&::-webkit-slider-thumb]:border-2 [&::-webkit-slider-thumb]:border-white [&::-webkit-slider-thumb]:shadow-md [&::-moz-range-thumb]:pointer-events-auto [&::-moz-range-thumb]:appearance-none [&::-moz-range-thumb]:w-4 [&::-moz-range-thumb]:h-4 [&::-moz-range-thumb]:bg-primary-100 [&::-moz-range-thumb]:rounded-full [&::-moz-range-thumb]:cursor-pointer [&::-moz-range-thumb]:border-2 [&::-moz-range-thumb]:border-white [&::-moz-range-thumb]:shadow-md"
-                    style={{ zIndex: priceRange[0] > 1000 ? 5 : 3 }}
+                    className="absolute w-full h-1 bg-transparent appearance-none pointer-events-none [&::-webkit-slider-thumb]:pointer-events-auto [&::-webkit-slider-thumb]:appearance-none [&::-webkit-slider-thumb]:w-4 [&::-webkit-slider-thumb]:h-4 [&::-webkit-slider-thumb]:bg-primary-100 [&::-webkit-slider-thumb]:rounded-full [&::-webkit-slider-thumb]:cursor-pointer [&::-webkit-slider-thumb]:border-3 [&::-webkit-slider-thumb]:border-white [&::-webkit-slider-thumb]:shadow-lg [&::-moz-range-thumb]:pointer-events-auto [&::-moz-range-thumb]:appearance-none [&::-moz-range-thumb]:w-4 [&::-moz-range-thumb]:h-4 [&::-moz-range-thumb]:bg-primary-100 [&::-moz-range-thumb]:rounded-full [&::-moz-range-thumb]:cursor-pointer [&::-moz-range-thumb]:border-3 [&::-moz-range-thumb]:border-white [&::-moz-range-thumb]:shadow-lg"
+                    style={{ zIndex: priceRange[0] > 500 ? 5 : 3 }}
                   />
                   
+                  {/* Max range slider */}
                   <input
                     type="range"
                     min="1"
-                    max="2000"
+                    max="1000"
                     value={priceRange[1]}
                     onChange={(e) => {
                       const val = parseInt(e.target.value);
@@ -205,17 +187,32 @@ export default function FilterSidebar({ onFilterChange }: FilterSidebarProps) {
                         setPriceRange([priceRange[0], val]);
                       }
                     }}
-                    className="absolute w-full h-1.5 bg-transparent appearance-none pointer-events-none [&::-webkit-slider-thumb]:pointer-events-auto [&::-webkit-slider-thumb]:appearance-none [&::-webkit-slider-thumb]:w-4 [&::-webkit-slider-thumb]:h-4 [&::-webkit-slider-thumb]:bg-primary-100 [&::-webkit-slider-thumb]:rounded-full [&::-webkit-slider-thumb]:cursor-pointer [&::-webkit-slider-thumb]:border-2 [&::-webkit-slider-thumb]:border-white [&::-webkit-slider-thumb]:shadow-md [&::-moz-range-thumb]:pointer-events-auto [&::-moz-range-thumb]:appearance-none [&::-moz-range-thumb]:w-4 [&::-moz-range-thumb]:h-4 [&::-moz-range-thumb]:bg-primary-100 [&::-moz-range-thumb]:rounded-full [&::-moz-range-thumb]:cursor-pointer [&::-moz-range-thumb]:border-2 [&::-moz-range-thumb]:border-white [&::-moz-range-thumb]:shadow-md"
-                    style={{ zIndex: priceRange[1] <= 1000 ? 5 : 3 }}
+                    className="absolute w-full h-1 bg-transparent appearance-none pointer-events-none [&::-webkit-slider-thumb]:pointer-events-auto [&::-webkit-slider-thumb]:appearance-none [&::-webkit-slider-thumb]:w-4 [&::-webkit-slider-thumb]:h-4 [&::-webkit-slider-thumb]:bg-primary-100 [&::-webkit-slider-thumb]:rounded-full [&::-webkit-slider-thumb]:cursor-pointer [&::-webkit-slider-thumb]:border-3 [&::-webkit-slider-thumb]:border-white [&::-webkit-slider-thumb]:shadow-lg [&::-moz-range-thumb]:pointer-events-auto [&::-moz-range-thumb]:appearance-none [&::-moz-range-thumb]:w-4 [&::-moz-range-thumb]:h-4 [&::-moz-range-thumb]:bg-primary-100 [&::-moz-range-thumb]:rounded-full [&::-moz-range-thumb]:cursor-pointer [&::-moz-range-thumb]:border-3 [&::-moz-range-thumb]:border-white [&::-moz-range-thumb]:shadow-lg"
+                    style={{ zIndex: priceRange[1] <= 500 ? 5 : 3 }}
                   />
+                  
+                  {/* Price labels above thumbs */}
+                  <div
+                    className="absolute -top-7 -translate-x-1/2 bg-primary-100 text-white text-xs font-semibold px-2 py-1 rounded"
+                    style={{ left: `${(priceRange[0] / 1000) * 100}%` }}
+                  >
+                    ${priceRange[0]}
+                  </div>
+                  <div
+                    className="absolute -top-7 -translate-x-1/2 bg-primary-100 text-white text-xs font-semibold px-2 py-1 rounded"
+                    style={{ left: `${(priceRange[1] / 1000) * 100}%` }}
+                  >
+                    ${priceRange[1]}
+                  </div>
                 </div>
                 
-                <div className="flex justify-between mt-2 text-xs text-gray-400">
+                {/* Scale labels */}
+                <div className="flex justify-between mt-3 text-xs text-gray-400">
                   <span>$1</span>
-                  <span>$500</span>
+                  <span>251</span>
+                  <span>501</span>
+                  <span>751</span>
                   <span>$1,000</span>
-                  <span>$1,500</span>
-                  <span>$2,000</span>
                 </div>
               </div>
             </div>
@@ -236,17 +233,27 @@ export default function FilterSidebar({ onFilterChange }: FilterSidebarProps) {
             />
           </button>
           {expandedSections.colors && (
-            <div className="flex items-center gap-2 mt-1">
+            <div className="flex items-center gap-2 flex-wrap mt-1">
               {colors.map((color) => (
                 <button
                   key={color.id}
                   onClick={() => handleColorChange(color.id)}
-                  className={`w-6 h-6 rounded ${color.color} relative ${
+                  className={`rounded relative transition-all hover:scale-110 ${
                     selectedColors.includes(color.id) ? 'ring-2 ring-gray-900 ring-offset-2' : ''
                   }`}
+                  style={{ 
+                    backgroundColor: color.color,
+                    width: '21px',
+                    height: '23.1px',
+                    opacity: 1,
+                    paddingTop: '2.1px',
+                    transform: 'rotate(0deg)'
+                  }}
+                  title={color.name}
+                  aria-label={`Filter by ${color.name} color`}
                 >
                   {selectedColors.includes(color.id) && (
-                    <span className="absolute inset-0 flex items-center justify-center text-white text-xs">
+                    <span className="absolute inset-0 flex items-center justify-center text-white font-bold text-[10px] drop-shadow">
                       ✓
                     </span>
                   )}
