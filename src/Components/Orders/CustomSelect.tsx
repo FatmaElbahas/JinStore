@@ -59,18 +59,8 @@ export default function CustomSelect({ options, value, onChange, ariaLabel }: Cu
               className={`w-full px-3 sm:px-4 py-2 text-left text-xs sm:text-sm transition-colors whitespace-nowrap ${
                 option.value === value 
                   ? 'bg-primary-100 text-white font-medium' 
-                  : 'text-gray-700'
+                  : 'text-gray-700 hover:bg-gray-50'
               }`}
-              onMouseEnter={(e) => {
-                if (option.value !== value) {
-                  e.currentTarget.style.backgroundColor = '#F5F4FE';
-                }
-              }}
-              onMouseLeave={(e) => {
-                if (option.value !== value) {
-                  e.currentTarget.style.backgroundColor = 'transparent';
-                }
-              }}
             >
               {option.label}
             </button>

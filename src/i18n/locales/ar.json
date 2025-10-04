@@ -63,12 +63,6 @@
       "completed": "مكتمل",
       "refunded": "مسترد",
       "cancelled": "ملغي"
-    },
-    "actionsMenu": {
-      "export": "تصدير الطلبات",
-      "print": "طباعة الطلبات",
-      "delete": "حذف المحدد",
-      "markShipped": "تحديد كمشحون"
     }
   },
   "footer": {

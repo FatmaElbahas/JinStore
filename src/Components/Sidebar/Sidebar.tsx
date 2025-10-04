@@ -109,7 +109,7 @@ export default function Sidebar({ onLinkClick }: SidebarProps = {}) {
   }, [location.pathname]);
 
   return (
-    <aside className="h-full lg:h-screen bg-primary-50 overflow-y-auto flex-shrink-0 scrollbar-hide w-full lg:w-[280px]" role="navigation" aria-label="Main navigation">
+    <aside className="h-full lg:h-screen bg-primary-50 overflow-y-auto flex-shrink-0 scrollbar-hide w-full lg:w-[280px] transition-all duration-300 ease-in-out" role="navigation" aria-label="Main navigation">
       <div className="w-full">
         <div className="flex items-center justify-center lg:justify-start w-full h-[98px] pb-2 px-4 lg:px-0">
           <img 
@@ -123,7 +123,7 @@ export default function Sidebar({ onLinkClick }: SidebarProps = {}) {
           />
         </div>
         
-        <div className="flex items-center gap-3 relative bg-white h-[70px] py-2 mx-4 lg:mx-6 -mt-1.5 rounded-lg px-3">
+        <div className="flex items-center gap-3 relative bg-white h-[70px] py-2 mx-4 lg:mx-6 -mt-1.5 rounded-lg px-3 transition-all duration-300 hover:shadow-md">
           <div className="w-10 h-10 bg-gray-900 rounded-full flex items-center justify-center text-white font-semibold">
             B
           </div>
@@ -150,8 +150,8 @@ export default function Sidebar({ onLinkClick }: SidebarProps = {}) {
                 {item.submenu ? (
                   <button
                     onClick={() => setExpandedMenu(expandedMenu === item.id ? null : item.id)}
-                    className={`flex items-center gap-3 transition-colors text-gray-700 w-full lg:w-[calc(100%-24px)] h-[43px] rounded-full py-2.5 px-4 lg:px-6 text-[15px] leading-[22.5px] font-normal
-                      ${isSubmenuActive(item.submenu) ? 'bg-white' : 'hover:bg-gray-100'}
+                    className={`flex items-center gap-3 transition-all duration-200 text-gray-700 w-full lg:w-[calc(100%-24px)] h-[43px] rounded-full py-2.5 px-4 lg:px-6 text-[15px] leading-[22.5px] font-normal hover:scale-105
+                      ${isSubmenuActive(item.submenu) ? 'bg-white shadow-sm' : 'hover:bg-gray-100'}
                     `}
                     >
                     <img 
@@ -176,9 +176,9 @@ export default function Sidebar({ onLinkClick }: SidebarProps = {}) {
                   <Link
                     to={item.path || '#'}
                     onClick={onLinkClick}
-                    className={`flex items-center gap-3 transition-colors w-full lg:w-[calc(100%-24px)] h-[43px] rounded-full py-2.5 px-4 lg:px-6 text-[15px] leading-[22.5px] font-normal
+                    className={`flex items-center gap-3 transition-all duration-200 w-full lg:w-[calc(100%-24px)] h-[43px] rounded-full py-2.5 px-4 lg:px-6 text-[15px] leading-[22.5px] font-normal hover:scale-105
                       ${isPathActive(item.path) 
-                        ? 'bg-primary-100 text-white' 
+                        ? 'bg-primary-100 text-white shadow-sm' 
                         : 'text-gray-700 hover:bg-gray-100'
                       }`}
                     >

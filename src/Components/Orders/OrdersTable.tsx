@@ -1,6 +1,6 @@
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faEllipsisVertical, faEdit, faTrash } from '@fortawesome/free-solid-svg-icons';
-import { useState } from 'react';
+import { useState, useEffect, useRef } from 'react';
 import OrderStatus from './OrderStatus';
 import { OrdersTableProps } from '../../types';
 import { useTranslation } from 'react-i18next';
@@ -10,24 +10,40 @@ export default function OrdersTable({ orders, selectedOrders, onSelectOrder, onS
   const { t, i18n } = useTranslation();
   const isRTL = i18n.language === 'ar';
   const [openActionsId, setOpenActionsId] = useState<string | null>(null);
+  const actionsRef = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    const handleClickOutside = (event: MouseEvent) => {
+      if (actionsRef.current && !actionsRef.current.contains(event.target as Node)) {
+        setOpenActionsId(null);
+      }
+    };
+
+    if (openActionsId) {
+      document.addEventListener('mousedown', handleClickOutside);
+    }
+
+    return () => {
+      document.removeEventListener('mousedown', handleClickOutside);
+    };
+  }, [openActionsId]);
 
   return (
     <>
       <div className="hidden md:block bg-primary-50 rounded-lg overflow-x-auto p-1 sm:p-2">
-        <table className="w-full min-w-[640px]" style={{ borderSpacing: '0 8px', borderCollapse: 'separate', direction: isRTL ? 'rtl' : 'ltr' }}>
+        <table className={`w-full min-w-[640px] border-separate border-spacing-y-2 ${isRTL ? 'rtl' : 'ltr'}`}>
           <thead className="bg-primary-50">
             <tr className="rounded-lg">
-              <th className="opacity-100" style={{ width: '8%', height: '34px', paddingTop: '9.8px', paddingRight: '8px', paddingBottom: '9.81px', paddingLeft: '8px' }}>
+              <th className="w-[8%] h-[34px] pt-2.5 px-2 pb-2 opacity-100">
                 <input
                   type="checkbox"
                   checked={allSelected}
                   onChange={onSelectAll}
-                  className="text-primary-100 opacity-100 border focus:ring-primary-100"
-                  style={{ width: '14.39px', height: '14.39px', borderRadius: '3px', borderWidth: '1px' }}
+                  className="text-primary-100 opacity-100 border focus:ring-primary-100 w-[14.39px] h-[14.39px] rounded"
                   aria-label={t('orders.table.selectAll')}
                 />
               </th>
-              <th className="px-2 opacity-100 text-gray-900 uppercase align-middle" style={{ width: '12%', height: '34px', paddingTop: '7.5px', paddingBottom: '8.5px', fontFamily: 'Poppins, sans-serif', fontWeight: 500, fontSize: '12px', lineHeight: '18px', letterSpacing: '1px', textAlign: isRTL ? 'right' : 'left' }}>
+              <th className={`px-2 opacity-100 text-gray-900 uppercase align-middle w-[12%] h-[34px] pt-2 pb-2 font-poppins font-medium text-xs leading-[18px] tracking-wider ${isRTL ? 'text-right' : 'text-left'}`}>
                 {t('orders.table.id')}
               </th>
               <th className="px-2 opacity-100 text-gray-900 uppercase align-middle" style={{ width: '30%', height: '34px', paddingTop: '7.5px', paddingBottom: '8.5px', fontFamily: 'Poppins, sans-serif', fontWeight: 500, fontSize: '12px', lineHeight: '18px', letterSpacing: '1px', textAlign: isRTL ? 'right' : 'left' }}>
@@ -98,7 +114,7 @@ export default function OrdersTable({ orders, selectedOrders, onSelectOrder, onS
                   </button>
                   
                   {openActionsId === order.id && (
-                    <div className="absolute top-8 right-2 bg-white rounded-lg shadow-lg border border-gray-200 py-1 min-w-[120px] z-20">
+                    <div ref={actionsRef} className="absolute top-8 right-2 bg-white rounded-lg shadow-lg border border-gray-200 py-1 min-w-[120px] z-20">
                       {onEditOrder && (
                         <button
                           onClick={() => {
@@ -177,7 +193,7 @@ export default function OrdersTable({ orders, selectedOrders, onSelectOrder, onS
                 </button>
                 
                 {openActionsId === order.id && (
-                  <div className="absolute top-8 right-0 bg-white rounded-lg shadow-lg border border-gray-200 py-1 min-w-[120px] z-20">
+                  <div ref={actionsRef} className="absolute top-8 right-0 bg-white rounded-lg shadow-lg border border-gray-200 py-1 min-w-[120px] z-20">
                     {onEditOrder && (
                       <button
                         onClick={(e) => {

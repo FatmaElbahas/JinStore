@@ -63,12 +63,6 @@
       "completed": "Completed",
       "refunded": "Refunded",
       "cancelled": "Cancelled"
-    },
-    "actionsMenu": {
-      "export": "Export Orders",
-      "print": "Print Orders",
-      "delete": "Delete Selected",
-      "markShipped": "Mark as Shipped"
     }
   },
   "footer": {

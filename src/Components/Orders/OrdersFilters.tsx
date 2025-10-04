@@ -1,7 +1,6 @@
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faSearch } from '@fortawesome/free-solid-svg-icons';
 import { OrdersFiltersProps } from '../../types';
-import { useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import CustomSelect from './CustomSelect';
 
@@ -13,7 +12,6 @@ export default function OrdersFilters({
   itemsPerPage,
   onItemsPerPageChange 
 }: OrdersFiltersProps) {
-  const [showActions, setShowActions] = useState(false);
   const { t } = useTranslation();
 
   const statusOptions = [
@@ -82,46 +80,13 @@ export default function OrdersFilters({
         />
       </div>
 
-      <div className="w-full sm:w-auto sm:ml-auto relative">
+      <div className="w-full sm:w-auto sm:ml-auto">
         <button 
-          onClick={() => setShowActions(!showActions)}
           className="w-full sm:w-auto px-4 md:px-6 py-2 bg-primary-100 text-white rounded-lg text-sm font-medium hover:bg-primary-200 transition-colors"
+          onClick={(e) => e.preventDefault()}
         >
           {t('orders.filters.actions')}
         </button>
-        
-        {showActions && (
-          <div className="absolute right-0 mt-2 w-48 bg-white rounded-lg shadow-lg border border-gray-200 py-2 z-10">
-            <button 
-              className="w-full px-4 py-2 text-left text-sm text-gray-700 transition-colors"
-              onMouseEnter={(e) => e.currentTarget.style.backgroundColor = '#F5F4FE'}
-              onMouseLeave={(e) => e.currentTarget.style.backgroundColor = 'transparent'}
-            >
-              {t('orders.actionsMenu.export')}
-            </button>
-            <button 
-              className="w-full px-4 py-2 text-left text-sm text-gray-700 transition-colors"
-              onMouseEnter={(e) => e.currentTarget.style.backgroundColor = '#F5F4FE'}
-              onMouseLeave={(e) => e.currentTarget.style.backgroundColor = 'transparent'}
-            >
-              {t('orders.actionsMenu.print')}
-            </button>
-            <button 
-              className="w-full px-4 py-2 text-left text-sm text-gray-700 transition-colors"
-              onMouseEnter={(e) => e.currentTarget.style.backgroundColor = '#F5F4FE'}
-              onMouseLeave={(e) => e.currentTarget.style.backgroundColor = 'transparent'}
-            >
-              {t('orders.actionsMenu.delete')}
-            </button>
-            <button 
-              className="w-full px-4 py-2 text-left text-sm text-gray-700 transition-colors"
-              onMouseEnter={(e) => e.currentTarget.style.backgroundColor = '#F5F4FE'}
-              onMouseLeave={(e) => e.currentTarget.style.backgroundColor = 'transparent'}
-            >
-              {t('orders.actionsMenu.markShipped')}
-            </button>
-          </div>
-        )}
       </div>
     </div>
   );
