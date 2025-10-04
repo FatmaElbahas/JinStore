@@ -12,7 +12,7 @@ export default function FilterSidebar({ onFilterChange }: FilterSidebarProps) {
   const { t } = useTranslation();
   const [keyword, setKeyword] = useState('');
   const [selectedCategories, setSelectedCategories] = useState<string[]>(['all']);
-  const [priceRange, setPriceRange] = useState<[number, number]>([1, 1000]);
+  const [priceRange, setPriceRange] = useState<[number, number]>([1, 2000]);
   const [selectedColors, setSelectedColors] = useState<string[]>([]);
   const [expandedSections, setExpandedSections] = useState({
     keywords: true,
@@ -21,7 +21,6 @@ export default function FilterSidebar({ onFilterChange }: FilterSidebarProps) {
     colors: true
   });
 
-  // Apply filters whenever any filter changes
   useEffect(() => {
     onFilterChange({
       keyword,
@@ -73,7 +72,6 @@ export default function FilterSidebar({ onFilterChange }: FilterSidebarProps) {
       <h2 className="text-lg font-semibold text-gray-900 mb-4">{t('products.filterSidebar.title')}</h2>
 
       <div className="space-y-5">
-        {/* Keywords Section */}
         <div>
           <button
             onClick={() => toggleSection('keywords')}
@@ -102,7 +100,6 @@ export default function FilterSidebar({ onFilterChange }: FilterSidebarProps) {
           )}
         </div>
 
-        {/* Categories Section */}
         <div>
           <div className="h-2 bg-primary-50 -mx-6 mb-2 rounded"></div>
           <button
@@ -132,7 +129,6 @@ export default function FilterSidebar({ onFilterChange }: FilterSidebarProps) {
           )}
         </div>
 
-        {/* Price Section */}
         <div>
           <div className="h-2 bg-primary-50 -mx-6 mb-2 rounded"></div>
           <button
@@ -148,22 +144,19 @@ export default function FilterSidebar({ onFilterChange }: FilterSidebarProps) {
           {expandedSections.price && (
             <div className="space-y-4 mt-3">
               <div className="relative pt-8 pb-2">
-                {/* Track */}
                 <div className="relative h-1 bg-gray-200 rounded-full">
-                  {/* Active range */}
                   <div
                     className="absolute h-full bg-primary-100 rounded-full"
                     style={{
-                      left: `${(priceRange[0] / 1000) * 100}%`,
-                      right: `${100 - (priceRange[1] / 1000) * 100}%`
+                      left: `${(priceRange[0] / 2000) * 100}%`,
+                      right: `${100 - (priceRange[1] / 2000) * 100}%`
                     }}
                   />
                   
-                  {/* Min range slider */}
                   <input
                     type="range"
                     min="1"
-                    max="1000"
+                    max="2000"
                     value={priceRange[0]}
                     onChange={(e) => {
                       const val = parseInt(e.target.value);
@@ -172,14 +165,13 @@ export default function FilterSidebar({ onFilterChange }: FilterSidebarProps) {
                       }
                     }}
                     className="absolute w-full h-1 bg-transparent appearance-none pointer-events-none [&::-webkit-slider-thumb]:pointer-events-auto [&::-webkit-slider-thumb]:appearance-none [&::-webkit-slider-thumb]:w-4 [&::-webkit-slider-thumb]:h-4 [&::-webkit-slider-thumb]:bg-primary-100 [&::-webkit-slider-thumb]:rounded-full [&::-webkit-slider-thumb]:cursor-pointer [&::-webkit-slider-thumb]:border-3 [&::-webkit-slider-thumb]:border-white [&::-webkit-slider-thumb]:shadow-lg [&::-moz-range-thumb]:pointer-events-auto [&::-moz-range-thumb]:appearance-none [&::-moz-range-thumb]:w-4 [&::-moz-range-thumb]:h-4 [&::-moz-range-thumb]:bg-primary-100 [&::-moz-range-thumb]:rounded-full [&::-moz-range-thumb]:cursor-pointer [&::-moz-range-thumb]:border-3 [&::-moz-range-thumb]:border-white [&::-moz-range-thumb]:shadow-lg"
-                    style={{ zIndex: priceRange[0] > 500 ? 5 : 3 }}
+                    style={{ zIndex: priceRange[0] > 1000 ? 5 : 3 }}
                   />
                   
-                  {/* Max range slider */}
                   <input
                     type="range"
                     min="1"
-                    max="1000"
+                    max="2000"
                     value={priceRange[1]}
                     onChange={(e) => {
                       const val = parseInt(e.target.value);
@@ -188,38 +180,35 @@ export default function FilterSidebar({ onFilterChange }: FilterSidebarProps) {
                       }
                     }}
                     className="absolute w-full h-1 bg-transparent appearance-none pointer-events-none [&::-webkit-slider-thumb]:pointer-events-auto [&::-webkit-slider-thumb]:appearance-none [&::-webkit-slider-thumb]:w-4 [&::-webkit-slider-thumb]:h-4 [&::-webkit-slider-thumb]:bg-primary-100 [&::-webkit-slider-thumb]:rounded-full [&::-webkit-slider-thumb]:cursor-pointer [&::-webkit-slider-thumb]:border-3 [&::-webkit-slider-thumb]:border-white [&::-webkit-slider-thumb]:shadow-lg [&::-moz-range-thumb]:pointer-events-auto [&::-moz-range-thumb]:appearance-none [&::-moz-range-thumb]:w-4 [&::-moz-range-thumb]:h-4 [&::-moz-range-thumb]:bg-primary-100 [&::-moz-range-thumb]:rounded-full [&::-moz-range-thumb]:cursor-pointer [&::-moz-range-thumb]:border-3 [&::-moz-range-thumb]:border-white [&::-moz-range-thumb]:shadow-lg"
-                    style={{ zIndex: priceRange[1] <= 500 ? 5 : 3 }}
+                    style={{ zIndex: priceRange[1] <= 1000 ? 5 : 3 }}
                   />
                   
-                  {/* Price labels above thumbs */}
                   <div
                     className="absolute -top-7 -translate-x-1/2 bg-primary-100 text-white text-xs font-semibold px-2 py-1 rounded"
-                    style={{ left: `${(priceRange[0] / 1000) * 100}%` }}
+                    style={{ left: `${(priceRange[0] / 2000) * 100}%` }}
                   >
                     ${priceRange[0]}
                   </div>
                   <div
                     className="absolute -top-7 -translate-x-1/2 bg-primary-100 text-white text-xs font-semibold px-2 py-1 rounded"
-                    style={{ left: `${(priceRange[1] / 1000) * 100}%` }}
+                    style={{ left: `${(priceRange[1] / 2000) * 100}%` }}
                   >
                     ${priceRange[1]}
                   </div>
                 </div>
                 
-                {/* Scale labels */}
                 <div className="flex justify-between mt-3 text-xs text-gray-400">
                   <span>$1</span>
-                  <span>251</span>
                   <span>501</span>
-                  <span>751</span>
-                  <span>$1,000</span>
+                  <span>1001</span>
+                  <span>1501</span>
+                  <span>$2,000</span>
                 </div>
               </div>
             </div>
           )}
         </div>
 
-        {/* Colors Section */}
         <div>
           <div className="h-2 bg-primary-50 -mx-6 mb-2 rounded"></div>
           <button

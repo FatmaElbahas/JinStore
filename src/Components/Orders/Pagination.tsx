@@ -13,25 +13,21 @@ export default function Pagination({ currentPage, totalPages, onPageChange }: Pa
   const { t, i18n } = useTranslation();
   const isRTL = i18n.language === 'ar';
 
-  // Generate page numbers to display (performance optimized)
   const pageNumbers = useMemo(() => {
     const pages: (number | string)[] = [];
     const maxPagesToShow = 5;
 
     if (totalPages <= maxPagesToShow + 2) {
-      // Show all pages if total is small
       for (let i = 1; i <= totalPages; i++) {
         pages.push(i);
       }
     } else {
-      // Always show first page
       pages.push(1);
 
       if (currentPage > 3) {
         pages.push('...');
       }
 
-      // Calculate start and end of middle pages
       const start = Math.max(2, currentPage - 1);
       const end = Math.min(totalPages - 1, currentPage + 1);
 
@@ -43,7 +39,6 @@ export default function Pagination({ currentPage, totalPages, onPageChange }: Pa
         pages.push('...');
       }
 
-      // Always show last page
       pages.push(totalPages);
     }
 
@@ -74,7 +69,6 @@ export default function Pagination({ currentPage, totalPages, onPageChange }: Pa
       aria-label="Pagination navigation"
       role="navigation"
     >
-      {/* Previous Button */}
       <button
         onClick={handlePrevious}
         disabled={currentPage === 1}
@@ -90,7 +84,6 @@ export default function Pagination({ currentPage, totalPages, onPageChange }: Pa
         <span>«</span>
       </button>
 
-      {/* Page Numbers */}
       <div className="flex items-center gap-1 sm:gap-2">
         {pageNumbers.map((page, index) => (
           <button
@@ -114,7 +107,6 @@ export default function Pagination({ currentPage, totalPages, onPageChange }: Pa
         ))}
       </div>
 
-      {/* Next Button */}
       <button
         onClick={handleNext}
         disabled={currentPage === totalPages}

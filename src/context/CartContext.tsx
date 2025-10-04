@@ -1,6 +1,5 @@
 import { createContext, useContext, useState, useEffect, ReactNode } from 'react';
 
-// Default product image
 const DEFAULT_IMAGE = new URL('../assets/Images/scarmblar.svg', import.meta.url).href;
 
 interface CartItem {
@@ -56,7 +55,6 @@ export function CartProvider({ children }: { children: ReactNode }) {
             : item
         );
       }
-      // Ensure image is always present
       const newItem = { 
         ...product, 
         quantity: 1,

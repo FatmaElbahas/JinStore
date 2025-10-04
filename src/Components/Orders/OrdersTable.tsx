@@ -1,17 +1,18 @@
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faEllipsisVertical } from '@fortawesome/free-solid-svg-icons';
+import { faEllipsisVertical, faEdit, faTrash } from '@fortawesome/free-solid-svg-icons';
+import { useState } from 'react';
 import OrderStatus from './OrderStatus';
 import { OrdersTableProps } from '../../types';
 import { useTranslation } from 'react-i18next';
 
-export default function OrdersTable({ orders, selectedOrders, onSelectOrder, onSelectAll }: OrdersTableProps) {
+export default function OrdersTable({ orders, selectedOrders, onSelectOrder, onSelectAll, onEditOrder, onDeleteOrder }: OrdersTableProps) {
   const allSelected = orders.length > 0 && selectedOrders.length === orders.length;
   const { t, i18n } = useTranslation();
   const isRTL = i18n.language === 'ar';
+  const [openActionsId, setOpenActionsId] = useState<string | null>(null);
 
   return (
     <>
-      {/* Desktop Table View */}
       <div className="hidden md:block bg-primary-50 rounded-lg overflow-x-auto p-1 sm:p-2">
         <table className="w-full min-w-[640px]" style={{ borderSpacing: '0 8px', borderCollapse: 'separate', direction: isRTL ? 'rtl' : 'ltr' }}>
           <thead className="bg-primary-50">
@@ -84,16 +85,48 @@ export default function OrdersTable({ orders, selectedOrders, onSelectOrder, onS
                   <OrderStatus status={order.status} />
                 </td>
                 <td 
-                  className="opacity-100 text-gray-500 align-middle" 
+                  className="opacity-100 text-gray-500 align-middle relative" 
                   style={{ width: '16%', height: '34px', paddingTop: '7.5px', paddingRight: '8px', paddingBottom: '8.5px', paddingLeft: '128.5px', fontFamily: 'Poppins, sans-serif', fontWeight: 400, fontSize: '14px', lineHeight: '21px', letterSpacing: '0%', textAlign: isRTL ? 'right' : 'left' }}
                   onClick={(e) => e.stopPropagation()}
                 >
                   <button 
                     className="p-1 hover:bg-gray-100 rounded transition-colors"
                     aria-label={`Actions for order ${order.id}`}
+                    onClick={() => setOpenActionsId(openActionsId === order.id ? null : order.id)}
                   >
                     <FontAwesomeIcon icon={faEllipsisVertical} />
                   </button>
+                  
+                  {openActionsId === order.id && (
+                    <div className="absolute top-8 right-2 bg-white rounded-lg shadow-lg border border-gray-200 py-1 min-w-[120px] z-20">
+                      {onEditOrder && (
+                        <button
+                          onClick={() => {
+                            onEditOrder(order.id);
+                            setOpenActionsId(null);
+                          }}
+                          className="w-full px-4 py-2 text-left text-sm text-gray-700 hover:bg-gray-50 flex items-center gap-2"
+                        >
+                          <FontAwesomeIcon icon={faEdit} className="text-blue-500" />
+                          {t('common.edit') || 'Edit'}
+                        </button>
+                      )}
+                      {onDeleteOrder && (
+                        <button
+                          onClick={() => {
+                            if (window.confirm(t('orders.confirmDelete') || 'Are you sure you want to delete this order?')) {
+                              onDeleteOrder(order.id);
+                            }
+                            setOpenActionsId(null);
+                          }}
+                          className="w-full px-4 py-2 text-left text-sm text-red-600 hover:bg-red-50 flex items-center gap-2"
+                        >
+                          <FontAwesomeIcon icon={faTrash} className="text-red-500" />
+                          {t('common.delete') || 'Delete'}
+                        </button>
+                      )}
+                    </div>
+                  )}
                 </td>
               </tr>
             ))}
@@ -101,9 +134,7 @@ export default function OrdersTable({ orders, selectedOrders, onSelectOrder, onS
         </table>
       </div>
 
-      {/* Mobile Card View */}
       <div className="md:hidden space-y-3">
-        {/* Select All */}
         <div className="bg-white rounded-lg p-3 flex items-center gap-2">
           <input
             type="checkbox"
@@ -116,7 +147,6 @@ export default function OrdersTable({ orders, selectedOrders, onSelectOrder, onS
           <span className="text-sm font-medium text-gray-700">{t('orders.table.selectAll')}</span>
         </div>
 
-        {/* Order Cards */}
         {orders.map((order) => (
           <div 
             key={order.id} 
@@ -134,17 +164,54 @@ export default function OrdersTable({ orders, selectedOrders, onSelectOrder, onS
                   aria-label={`Select order ${order.id}`}
                 />
               </div>
-              <button 
-                onClick={(e) => e.stopPropagation()}
-                className="p-2 hover:bg-gray-100 rounded transition-colors text-gray-500"
-                aria-label={`Actions for order ${order.id}`}
-              >
-                <FontAwesomeIcon icon={faEllipsisVertical} />
-              </button>
+              <div className="relative">
+                <button 
+                  onClick={(e) => {
+                    e.stopPropagation();
+                    setOpenActionsId(openActionsId === order.id ? null : order.id);
+                  }}
+                  className="p-2 hover:bg-gray-100 rounded transition-colors text-gray-500"
+                  aria-label={`Actions for order ${order.id}`}
+                >
+                  <FontAwesomeIcon icon={faEllipsisVertical} />
+                </button>
+                
+                {openActionsId === order.id && (
+                  <div className="absolute top-8 right-0 bg-white rounded-lg shadow-lg border border-gray-200 py-1 min-w-[120px] z-20">
+                    {onEditOrder && (
+                      <button
+                        onClick={(e) => {
+                          e.stopPropagation();
+                          onEditOrder(order.id);
+                          setOpenActionsId(null);
+                        }}
+                        className="w-full px-4 py-2 text-left text-sm text-gray-700 hover:bg-gray-50 flex items-center gap-2"
+                      >
+                        <FontAwesomeIcon icon={faEdit} className="text-blue-500" />
+                        {t('common.edit') || 'Edit'}
+                      </button>
+                    )}
+                    {onDeleteOrder && (
+                      <button
+                        onClick={(e) => {
+                          e.stopPropagation();
+                          if (window.confirm(t('orders.confirmDelete') || 'Are you sure you want to delete this order?')) {
+                            onDeleteOrder(order.id);
+                          }
+                          setOpenActionsId(null);
+                        }}
+                        className="w-full px-4 py-2 text-left text-sm text-red-600 hover:bg-red-50 flex items-center gap-2"
+                      >
+                        <FontAwesomeIcon icon={faTrash} className="text-red-500" />
+                        {t('common.delete') || 'Delete'}
+                      </button>
+                    )}
+                  </div>
+                )}
+              </div>
             </div>
 
             <div className="space-y-2.5">
-              {/* ID */}
               <div className="flex items-center gap-2">
                 <span className="text-xs text-gray-500 uppercase font-medium min-w-[60px]" style={{ fontFamily: 'Poppins, sans-serif' }}>
                   {t('orders.table.id')}:
@@ -154,7 +221,6 @@ export default function OrdersTable({ orders, selectedOrders, onSelectOrder, onS
                 </span>
               </div>
 
-              {/* Name */}
               <div className="flex items-center gap-2">
                 <span className="text-xs text-gray-500 uppercase font-medium min-w-[60px]" style={{ fontFamily: 'Poppins, sans-serif' }}>
                   {t('orders.table.name')}:
@@ -164,7 +230,6 @@ export default function OrdersTable({ orders, selectedOrders, onSelectOrder, onS
                 </span>
               </div>
 
-              {/* Date */}
               <div className="flex items-center gap-2">
                 <span className="text-xs text-gray-500 uppercase font-medium min-w-[60px]" style={{ fontFamily: 'Poppins, sans-serif' }}>
                   {t('orders.table.date')}:
@@ -174,7 +239,6 @@ export default function OrdersTable({ orders, selectedOrders, onSelectOrder, onS
                 </span>
               </div>
 
-              {/* Total */}
               <div className="flex items-center gap-2">
                 <span className="text-xs text-gray-500 uppercase font-medium min-w-[60px]" style={{ fontFamily: 'Poppins, sans-serif' }}>
                   {t('orders.table.total')}:
@@ -184,7 +248,6 @@ export default function OrdersTable({ orders, selectedOrders, onSelectOrder, onS
                 </span>
               </div>
 
-              {/* Status */}
               <div className="flex items-center gap-2">
                 <span className="text-xs text-gray-500 uppercase font-medium min-w-[60px]" style={{ fontFamily: 'Poppins, sans-serif' }}>
                   {t('orders.table.status')}:

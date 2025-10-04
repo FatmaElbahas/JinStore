@@ -1,6 +1,7 @@
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faHeart as faHeartSolid } from '@fortawesome/free-solid-svg-icons';
+import { faHeart as faHeartSolid, faEdit, faTrash, faEllipsisVertical } from '@fortawesome/free-solid-svg-icons';
 import { faHeart as faHeartRegular } from '@fortawesome/free-regular-svg-icons';
+import { useState, useEffect, useRef } from 'react';
 import { useTranslation } from 'react-i18next';
 
 interface ProductCardProps {
@@ -16,9 +17,12 @@ interface ProductCardProps {
   cartQuantity?: number;
   onAddToCart: () => void;
   onToggleWishlist: () => void;
+  onEdit?: () => void;
+  onDelete?: () => void;
 }
 
 export default function ProductCard({
+  id,
   name,
   price,
   oldPrice,
@@ -30,10 +34,67 @@ export default function ProductCard({
   cartQuantity = 0,
   onAddToCart,
   onToggleWishlist,
+  onEdit,
+  onDelete,
 }: ProductCardProps) {
   const { t } = useTranslation();
+  const [showActions, setShowActions] = useState(false);
+  const actionsRef = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    const handleClickOutside = (event: MouseEvent) => {
+      if (actionsRef.current && !actionsRef.current.contains(event.target as Node)) {
+        setShowActions(false);
+      }
+    };
+
+    if (showActions) {
+      document.addEventListener('mousedown', handleClickOutside);
+    }
+
+    return () => {
+      document.removeEventListener('mousedown', handleClickOutside);
+    };
+  }, [showActions]);
   return (
-    <article className="bg-white shadow-sm overflow-hidden hover:shadow-md transition-shadow w-full rounded-2xl" role="listitem">
+    <article className="bg-white shadow-sm overflow-hidden hover:shadow-md transition-shadow w-full rounded-2xl relative" role="listitem">
+      <div className="absolute top-3 right-3 z-10" ref={actionsRef}>
+        <button
+          onClick={() => setShowActions(!showActions)}
+          className="p-2 bg-white hover:bg-gray-50 rounded-full shadow-md border border-gray-200 transition-colors"
+          aria-label="Actions"
+        >
+          <FontAwesomeIcon icon={faEllipsisVertical} className="text-gray-700 text-sm" />
+        </button>
+        
+        {showActions && (
+          <div className="absolute top-10 right-0 bg-white rounded-lg shadow-lg border border-gray-200 py-1 min-w-[120px] z-20">
+            <button
+              onClick={() => {
+                onEdit?.();
+                setShowActions(false);
+              }}
+              className="w-full px-4 py-2 text-left text-sm text-gray-700 hover:bg-gray-50 flex items-center gap-2"
+            >
+              <FontAwesomeIcon icon={faEdit} className="text-blue-500" />
+              {t('common.edit') || 'Edit'}
+            </button>
+            <button
+              onClick={() => {
+                if (window.confirm(t('products.confirmDelete') || 'Are you sure you want to delete this product?')) {
+                  onDelete?.();
+                }
+                setShowActions(false);
+              }}
+              className="w-full px-4 py-2 text-left text-sm text-red-600 hover:bg-red-50 flex items-center gap-2"
+            >
+              <FontAwesomeIcon icon={faTrash} className="text-red-500" />
+              {t('common.delete') || 'Delete'}
+            </button>
+          </div>
+        )}
+      </div>
+      
       <div className="relative bg-gray-50 flex items-center justify-center h-[266px]">
         <img 
           src={image} 

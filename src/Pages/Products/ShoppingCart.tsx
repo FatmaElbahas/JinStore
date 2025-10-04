@@ -14,6 +14,7 @@ export default function ShoppingCart() {
     <PageLayout
       title={`${t('cart.title')} - JinStore`}
       description="Review your shopping cart and proceed to checkout. Manage your selected items easily."
+      dir={isRTL ? 'rtl' : 'ltr'}
     >
       <div className="flex-1 px-3 sm:px-4 md:px-4 pt-4 sm:pt-8 pb-4">
         <header className="mb-6">
@@ -55,7 +56,6 @@ export default function ShoppingCart() {
                           alt={item.name}
                           className="w-full h-full object-contain"
                           onError={(e) => {
-                            // Fallback if image fails to load
                             const target = e.target as HTMLImageElement;
                             target.src = 'data:image/svg+xml,%3Csvg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"%3E%3Cpath fill="%23ccc" d="M21 19V5c0-1.1-.9-2-2-2H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2zM8.5 13.5l2.5 3.01L14.5 12l4.5 6H5l3.5-4.5z"/%3E%3C/svg%3E';
                           }}

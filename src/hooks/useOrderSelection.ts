@@ -4,7 +4,6 @@ import { Order } from '../types';
 export function useOrderSelection() {
   const [selectedOrders, setSelectedOrders] = useState<string[]>([]);
 
-  // Optimized with useCallback to prevent unnecessary re-renders
   const handleSelectOrder = useCallback((orderId: string) => {
     setSelectedOrders(prev =>
       prev.includes(orderId)
@@ -13,11 +12,9 @@ export function useOrderSelection() {
     );
   }, []);
 
-  // Optimized to use functional update for better performance
   const handleSelectAll = useCallback((orders: Order[]) => {
     setSelectedOrders(prev => {
       const orderIds = orders.map(order => order.id);
-      // Toggle selection: if all are selected, deselect all; otherwise select all
       const allSelected = orderIds.every(id => prev.includes(id)) && orderIds.length === prev.length;
       return allSelected ? [] : orderIds;
     });

@@ -2,35 +2,22 @@ import { useState, useCallback } from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faGlobe } from '@fortawesome/free-solid-svg-icons';
 import { useTranslation } from 'react-i18next';
+import { useNavigate } from 'react-router-dom';
 import { useCart } from '../../context/CartContext';
+import { useProducts } from '../../context/ProductsContext';
 import PageLayout from '../../Components/Layout/PageLayout';
 import ProductCard from '../../Components/Products/ProductCard';
 import FilterSidebar from '../../Components/Products/FilterSidebar';
 import CustomSelect from '../../Components/Orders/CustomSelect';
-import { Product, ProductFilters } from '../../types';
+import { ProductFilters } from '../../types';
 
-// Product images
-const PRODUCT_IMAGES = {
-  orange: new URL('../../assets/Images/orange.svg', import.meta.url).href,
-  layes: new URL('../../assets/Images/layes.svg', import.meta.url).href,
-  scarmblar: new URL('../../assets/Images/scarmblar.svg', import.meta.url).href,
-  trotaills: new URL('../../assets/Images/trotaills.svg', import.meta.url).href,
-  pizza: new URL('../../assets/Images/pizza.svg', import.meta.url).href,
-  protein: new URL('../../assets/Images/Protein.svg', import.meta.url).href,
-};
-
-const PRODUCTS: Product[] = [
-  { id: 1, name: 'Simply Orange Pulp-Free Juice - 52 fl OZ', price: 499.90, oldPrice: 800, rating: 4, reviews: 25, image: PRODUCT_IMAGES.orange, category: 'beverages', color: 'orange' },
-  { id: 2, name: "Lay's Classic Potato Snack Chips, Party Size! 13 oz Bag", price: 1190.90, rating: 4, reviews: 40, image: PRODUCT_IMAGES.layes, category: 'snacks', color: 'lime' },
-  { id: 3, name: 'Oscar Mayer Ham & Swiss Melt Scrambles - Jar', price: 1599.00, rating: 5, reviews: 8, image: PRODUCT_IMAGES.scarmblar, category: 'food', color: 'pink' },
-  { id: 4, name: 'Large Garden Spinach & Herb Wrap Tortillas - 15oz, 6ct', price: 10.00, rating: 4, reviews: 0, image: PRODUCT_IMAGES.trotaills, category: 'food', color: 'mint' },
-  { id: 5, name: 'Great Value Rising Crust Pizza, Supreme', price: 30.00, rating: 4, reviews: 5, image: PRODUCT_IMAGES.pizza, category: 'food', color: 'green' },
-  { id: 6, name: 'Real Plant Powered Protein Shake - Double Chocolate', price: 25.00, rating: 4, reviews: 8, image: PRODUCT_IMAGES.protein, category: 'beverages', color: 'blue' },
-];
 
 export default function ProductsGridView() {
-  const { t } = useTranslation();
+  const { t, i18n } = useTranslation();
+  const isRTL = i18n.language === 'ar';
   const { addToCart, isInCart, items } = useCart();
+  const { products, deleteProduct } = useProducts();
+  const navigate = useNavigate();
   const [wishlist, setWishlist] = useState<number[]>([]);
   const [filters, setFilters] = useState({ category: 'all', sort: 'default', items: 10 });
   const [sidebarFilters, setSidebarFilters] = useState<ProductFilters | null>(null);
@@ -43,36 +30,30 @@ export default function ProductsGridView() {
     );
   };
 
-  const filteredProducts = PRODUCTS.filter(product => {
-    // Search from Navbar
+  const filteredProducts = products.filter(product => {
     if (searchTerm && searchTerm.trim() !== '') {
       if (!product.name.toLowerCase().includes(searchTerm.toLowerCase())) {
         return false;
       }
     }
 
-    // Category filter from top filters
     if (filters.category !== 'all' && product.category !== filters.category) {
       return false;
     }
 
-    // Sidebar filters
     if (sidebarFilters) {
-      // Keyword filter
       if (sidebarFilters.keyword && sidebarFilters.keyword.trim() !== '') {
         if (!product.name.toLowerCase().includes(sidebarFilters.keyword.toLowerCase())) {
           return false;
         }
       }
 
-      // Categories filter
       if (sidebarFilters.categories && sidebarFilters.categories.length > 0 && !sidebarFilters.categories.includes('all')) {
         if (!sidebarFilters.categories.includes(product.category)) {
           return false;
         }
       }
 
-      // Price range filter
       if (sidebarFilters.priceRange && Array.isArray(sidebarFilters.priceRange)) {
         const [min, max] = sidebarFilters.priceRange;
         if (product.price < min || product.price > max) {
@@ -80,7 +61,6 @@ export default function ProductsGridView() {
         }
       }
 
-      // Colors filter
       if (sidebarFilters.colors && sidebarFilters.colors.length > 0) {
         if (!product.color || !sidebarFilters.colors.includes(product.color)) {
           return false;
@@ -118,11 +98,20 @@ export default function ProductsGridView() {
     setCurrentPage(1);
   }, []);
 
+  const handleEditProduct = (id: number) => {
+    navigate(`/edit-product/${id}`);
+  };
+
+  const handleDeleteProduct = (id: number) => {
+    deleteProduct(id);
+  };
+
   return (
     <PageLayout 
       title="Products - JinStore"
       description="Browse our wide selection of products at JinStore. Find beverages, snacks, and food items at great prices."
       onSearch={handleSearch}
+      dir={isRTL ? 'rtl' : 'ltr'}
     >
       <div className="flex-1 pl-2 pr-4 md:pl-2 md:pr-4 pt-8 pb-4">
         <header className="mb-6">
@@ -212,6 +201,8 @@ export default function ProductsGridView() {
                         inWishlist={wishlist.includes(product.id)}
                         onAddToCart={() => addToCart(product)}
                         onToggleWishlist={() => toggleWishlist(product.id)}
+                        onEdit={() => handleEditProduct(product.id)}
+                        onDelete={() => handleDeleteProduct(product.id)}
                       />
                     );
                   })}

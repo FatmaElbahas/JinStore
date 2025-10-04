@@ -8,11 +8,12 @@ interface PageLayoutProps {
   title?: string;
   description?: string;
   onSearch?: (e: React.ChangeEvent<HTMLInputElement>) => void;
+  dir?: 'ltr' | 'rtl';
 }
 
 const LOGO = new URL('../../assets/Images/LOGO.svg', import.meta.url).href;
 
-export default function PageLayout({ children, title = 'JinStore', description = 'JinStore - Your Premium E-commerce Platform', onSearch }: PageLayoutProps) {
+export default function PageLayout({ children, title = 'JinStore', description = 'JinStore - Your Premium E-commerce Platform', onSearch, dir }: PageLayoutProps) {
   return (
     <>
       <Helmet>
@@ -27,7 +28,7 @@ export default function PageLayout({ children, title = 'JinStore', description =
         <meta name="twitter:description" content={description} />
         <meta name="twitter:image" content={LOGO} />
       </Helmet>
-      <main className="flex-1 overflow-y-auto flex flex-col bg-primary-50">
+      <main className="flex-1 overflow-y-auto flex flex-col bg-primary-50" dir={dir}>
         <Navbar onSearch={onSearch} />
         {children}
         <Footer />

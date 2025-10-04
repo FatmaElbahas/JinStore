@@ -11,13 +11,22 @@ const LanguageContext = createContext<LanguageContextType | undefined>(undefined
 
 export function LanguageProvider({ children }: { children: ReactNode }) {
   const { i18n } = useTranslation();
-  const [language, setLanguage] = useState(i18n.language);
+  
+  const [language, setLanguage] = useState(() => {
+    const savedLang = localStorage.getItem('language');
+    return savedLang || 'en';
+  });
+  
   const dir = language === 'ar' ? 'rtl' : 'ltr';
 
   useEffect(() => {
+    if (i18n.language !== language) {
+      i18n.changeLanguage(language);
+    }
+    
     document.documentElement.dir = dir;
     document.documentElement.lang = language;
-  }, [language, dir]);
+  }, [language, dir, i18n]);
 
   const toggleLanguage = () => {
     const newLang = language === 'en' ? 'ar' : 'en';

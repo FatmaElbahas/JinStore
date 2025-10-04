@@ -5,12 +5,12 @@ import { useTranslation } from 'react-i18next';
 
 export default function LoadingDemo() {
   const [showFullScreen, setShowFullScreen] = useState(false);
-  const { t } = useTranslation();
+  const { t, i18n } = useTranslation();
+  const isRTL = i18n.language === 'ar';
 
   return (
-    <PageLayout title="Loading Demo - JinStore" description="Loading component demonstration">
+    <PageLayout title="Loading Demo - JinStore" description="Loading component demonstration" dir={isRTL ? 'rtl' : 'ltr'}>
       <div className="p-8 space-y-12">
-        {/* Page Header */}
         <div className="text-center mb-12">
           <h1 className="text-4xl font-bold text-gray-900 mb-4">
             Loading Components Demo
@@ -20,7 +20,6 @@ export default function LoadingDemo() {
           </p>
         </div>
 
-        {/* Full Screen Loading Demo */}
         <div className="bg-white rounded-lg shadow-lg p-8">
           <h2 className="text-2xl font-semibold text-gray-900 mb-4">
             Full Screen Loading
@@ -37,13 +36,11 @@ export default function LoadingDemo() {
           {showFullScreen && (
             <>
               <Loading fullScreen message={t('loading.pleaseWait')} size="large" />
-              {/* Auto hide after 3 seconds */}
               {setTimeout(() => setShowFullScreen(false), 3000)}
             </>
           )}
         </div>
 
-        {/* Medium Size Loading */}
         <div className="bg-white rounded-lg shadow-lg p-8">
           <h2 className="text-2xl font-semibold text-gray-900 mb-4">
             Medium Loading (Default)
@@ -51,7 +48,6 @@ export default function LoadingDemo() {
           <Loading message={t('loading.fetchingData')} size="medium" />
         </div>
 
-        {/* Small Size Loading */}
         <div className="bg-white rounded-lg shadow-lg p-8">
           <h2 className="text-2xl font-semibold text-gray-900 mb-4">
             Small Loading
@@ -59,7 +55,6 @@ export default function LoadingDemo() {
           <Loading message="Loading data..." size="small" />
         </div>
 
-        {/* Inline Spinner */}
         <div className="bg-white rounded-lg shadow-lg p-8">
           <h2 className="text-2xl font-semibold text-gray-900 mb-4">
             Inline Spinner
@@ -76,17 +71,13 @@ export default function LoadingDemo() {
           </div>
         </div>
 
-        {/* Usage Example Code */}
         <div className="bg-gray-900 text-white rounded-lg p-8">
           <h2 className="text-2xl font-semibold mb-4">Usage Examples</h2>
           <pre className="text-sm overflow-x-auto">
-{`// Full screen loading
-<Loading fullScreen message="Loading..." size="large" />
+{`<Loading fullScreen message="Loading..." size="large" />
 
-// Inline loading
 <Loading message="Fetching data..." size="medium" />
 
-// Simple spinner in button
 <button>
   <Spinner className="w-5 h-5" />
   Processing...

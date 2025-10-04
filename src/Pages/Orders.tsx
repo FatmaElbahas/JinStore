@@ -1,18 +1,23 @@
-import { useCallback } from 'react';
+import { useCallback, useState } from 'react';
 import { Helmet } from 'react-helmet-async';
 import Navbar from '../Components/Navbar/Navbar';
 import OrdersHeader from '../Components/Orders/OrdersHeader';
 import OrdersFilters from '../Components/Orders/OrdersFilters';
 import OrdersTable from '../Components/Orders/OrdersTable';
+import EditOrderModal from '../Components/Orders/EditOrderModal';
 import Pagination from '../Components/Orders/Pagination';
 import Footer from '../Components/Footer/Footer';
 import { useOrders } from '../hooks/useOrders';
 import { useOrderSelection } from '../hooks/useOrderSelection';
-import { INITIAL_ORDERS, ITEMS_PER_PAGE } from '../constants/orderData';
+import { useOrdersContext } from '../context/OrdersContext';
+import { ITEMS_PER_PAGE } from '../constants/orderData';
 import { useTranslation } from 'react-i18next';
+import { Order } from '../types';
 
 export default function Orders() {
-  const { t } = useTranslation();
+  const { t, i18n } = useTranslation();
+  const isRTL = i18n.language === 'ar';
+  const { orders, updateOrder, deleteOrder } = useOrdersContext();
   
   const {
     filters,
@@ -25,7 +30,9 @@ export default function Orders() {
     handleSearchChange,
     handlePageChange,
     handleItemsPerPageChange,
-  } = useOrders(INITIAL_ORDERS, ITEMS_PER_PAGE);
+  } = useOrders(orders, ITEMS_PER_PAGE);
+
+  const [editingOrder, setEditingOrder] = useState<Order | null>(null);
 
   const {
     selectedOrders,
@@ -33,15 +40,35 @@ export default function Orders() {
     handleSelectAll,
   } = useOrderSelection();
 
-  // Optimized callback to handle search input
   const handleSearch = useCallback((e: React.ChangeEvent<HTMLInputElement>) => {
     handleSearchChange(e.target.value);
   }, [handleSearchChange]);
 
-  // Optimized callback to handle select all with current orders
   const handleSelectAllOrders = useCallback(() => {
     handleSelectAll(currentOrders);
   }, [handleSelectAll, currentOrders]);
+
+  const handleEditOrder = useCallback((orderId: string) => {
+    const order = orders.find(o => o.id === orderId);
+    if (order) {
+      setEditingOrder(order);
+    }
+  }, [orders]);
+
+  const handleDeleteOrder = useCallback((orderId: string) => {
+    if (window.confirm(t('orders.confirmDelete') || 'Are you sure you want to delete this order?')) {
+      deleteOrder(orderId);
+    }
+  }, [deleteOrder, t]);
+
+  const handleSaveOrder = useCallback((orderId: string, updatedOrder: Partial<Order>) => {
+    updateOrder(orderId, updatedOrder);
+    setEditingOrder(null);
+  }, [updateOrder]);
+
+  const handleCloseModal = useCallback(() => {
+    setEditingOrder(null);
+  }, []);
 
   return (
     <>
@@ -49,7 +76,7 @@ export default function Orders() {
         <title>{t('nav.orders')} - JinStore</title>
         <meta name="description" content="Manage and track all your orders in one place. View order status, filter, and search orders easily." />
       </Helmet>
-      <main className="flex-1 overflow-y-auto flex flex-col bg-primary-50">
+      <main className="flex-1 overflow-y-auto flex flex-col bg-primary-50" dir={isRTL ? 'rtl' : 'ltr'}>
         <Navbar onSearch={handleSearch} />
       
       <div className="flex-1 px-3 sm:px-4 md:px-8 pt-4 sm:pt-6 md:pt-8 pb-4 bg-primary-50">
@@ -71,6 +98,8 @@ export default function Orders() {
             selectedOrders={selectedOrders}
             onSelectOrder={handleSelectOrder}
             onSelectAll={handleSelectAllOrders}
+            onEditOrder={handleEditOrder}
+            onDeleteOrder={handleDeleteOrder}
           />
 
           {totalPages > 1 && (
@@ -82,6 +111,13 @@ export default function Orders() {
           )}
         </section>
       </div>
+      
+      <EditOrderModal
+        order={editingOrder}
+        isOpen={!!editingOrder}
+        onClose={handleCloseModal}
+        onSave={handleSaveOrder}
+      />
       
       <Footer />
     </main>

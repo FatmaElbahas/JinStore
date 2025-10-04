@@ -4,7 +4,6 @@ import { useState, useEffect } from 'react';
 import { useTranslation } from 'react-i18next';
 import { Link, useLocation } from 'react-router-dom';
 
-// Sidebar icon paths
 const ICONS = {
   dashboard: new URL('../../assets/Images/DasboardIcon.svg', import.meta.url).href,
   orders: new URL('../../assets/Images/OrdersIcon.svg', import.meta.url).href,
@@ -20,13 +19,12 @@ const ICONS = {
   errorPage: new URL('../../assets/Images/ErrorPageIcon.svg', import.meta.url).href,
 };
 
-// Logo
 const LOGO = new URL('../../assets/Images/LOGO.svg', import.meta.url).href;
 
 interface MenuItem {
   id: string;
   label: string;
-  icon: string; // Changed to string for image path
+  icon: string;
   badge?: number;
   path?: string;
   submenu?: { id: string; label: string; path: string }[];
@@ -50,7 +48,7 @@ export default function Sidebar({ onLinkClick }: SidebarProps = {}) {
     {
       title: t('sidebar.ecommerce'),
       items: [
-        { id: 'dashboard', label: t('sidebar.dashboard'), icon: ICONS.dashboard, path: '/' },
+        { id: 'dashboard', label: t('sidebar.dashboard'), icon: ICONS.dashboard, path: '/dashboard' },
         { id: 'orders', label: t('sidebar.orders'), icon: ICONS.orders, badge: 2, path: '/orders' },
         { id: 'detail', label: t('sidebar.detail'), icon: ICONS.invoices, path: '/detail' },
         { 
@@ -73,41 +71,38 @@ export default function Sidebar({ onLinkClick }: SidebarProps = {}) {
     {
       title: t('sidebar.apps'),
       items: [
-        { id: 'chats', label: t('sidebar.chats'), icon: ICONS.chats, badge: 6 },
-        { id: 'email', label: t('sidebar.email'), icon: ICONS.email },
-        { id: 'todo', label: t('sidebar.todo'), icon: ICONS.todo },
+        { id: 'chats', label: t('sidebar.chats'), icon: ICONS.chats, badge: 6, path: '/chats' },
+        { id: 'email', label: t('sidebar.email'), icon: ICONS.email, path: '/email' },
+        { id: 'todo', label: t('sidebar.todo'), icon: ICONS.todo, path: '/todo' },
       ]
     },
     {
       title: t('sidebar.pages'),
       items: [
-        { id: 'profile', label: t('sidebar.profile'), icon: ICONS.profile },
-        { id: 'users', label: t('sidebar.users'), icon: ICONS.user },
-        { id: 'authentication', label: t('sidebar.authentication'), icon: ICONS.authentication },
-        { id: 'error', label: t('sidebar.error'), icon: ICONS.errorPage },
+        { id: 'profile', label: t('sidebar.profile'), icon: ICONS.profile, path: '/profile' },
+        { id: 'users', label: t('sidebar.users'), icon: ICONS.user, path: '/users' },
+        { id: 'authentication', label: t('sidebar.authentication'), icon: ICONS.authentication, path: '/authentication' },
+        { id: 'error', label: t('sidebar.error'), icon: ICONS.errorPage, path: '/error' },
       ]
     }
   ];
 
-  // Helper function to check if a path is active
   const isPathActive = (path?: string) => {
     if (!path) return false;
     return location.pathname === path;
   };
 
-  // Helper function to check if submenu should be active
   const isSubmenuActive = (submenu?: { id: string; label: string; path: string }[]) => {
     if (!submenu) return false;
     return submenu.some(item => location.pathname === item.path);
   };
 
-  // Auto-expand menu if submenu item is active
   useEffect(() => {
     for (const section of menuSections) {
       for (const item of section.items) {
         if (item.submenu && isSubmenuActive(item.submenu)) {
           setExpandedMenu(item.id);
-          return; // Exit early once found
+          return;
         }
       }
     }
@@ -116,7 +111,6 @@ export default function Sidebar({ onLinkClick }: SidebarProps = {}) {
   return (
     <aside className="h-full lg:h-screen bg-primary-50 overflow-y-auto flex-shrink-0 scrollbar-hide w-full lg:w-[280px]" role="navigation" aria-label="Main navigation">
       <div className="w-full">
-        {/* Logo - visible on both mobile and desktop */}
         <div className="flex items-center justify-center lg:justify-start w-full h-[98px] pb-2 px-4 lg:px-0">
           <img 
             src={LOGO} 
@@ -129,7 +123,6 @@ export default function Sidebar({ onLinkClick }: SidebarProps = {}) {
           />
         </div>
         
-        {/* Profile Card - visible on both mobile and desktop */}
         <div className="flex items-center gap-3 relative bg-white h-[70px] py-2 mx-4 lg:mx-6 -mt-1.5 rounded-lg px-3">
           <div className="w-10 h-10 bg-gray-900 rounded-full flex items-center justify-center text-white font-semibold">
             B

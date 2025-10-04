@@ -20,7 +20,6 @@ export default function CustomSelect({ options, value, onChange, ariaLabel }: Cu
 
   const selectedOption = options.find(opt => opt.value === value);
 
-  // Close dropdown when clicking outside
   useEffect(() => {
     const handleClickOutside = (event: MouseEvent) => {
       if (dropdownRef.current && !dropdownRef.current.contains(event.target as Node)) {

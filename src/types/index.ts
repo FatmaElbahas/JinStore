@@ -57,9 +57,10 @@ export interface OrdersTableProps {
   selectedOrders: string[];
   onSelectOrder: (orderId: string) => void;
   onSelectAll: () => void;
+  onEditOrder?: (orderId: string) => void;
+  onDeleteOrder?: (orderId: string) => void;
 }
 
-// Product Types
 export interface Product {
   id: number;
   name: string;

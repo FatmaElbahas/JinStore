@@ -6,12 +6,12 @@ import { faHome, faSearch } from '@fortawesome/free-solid-svg-icons';
 const ErrorIcon = new URL('../assets/Images/ErrorPageIcon.svg', import.meta.url).href;
 
 export default function NotFound() {
-  const { t } = useTranslation();
+  const { t, i18n } = useTranslation();
+  const isRTL = i18n.language === 'ar';
 
   return (
-    <div className="min-h-screen bg-primary-50 flex items-center justify-center px-4 py-12">
+    <div className="min-h-screen bg-primary-50 flex items-center justify-center px-4 py-12" dir={isRTL ? 'rtl' : 'ltr'}>
       <div className="max-w-2xl w-full text-center">
-        {/* Error Icon */}
         <div className="mb-8 flex justify-center">
           <img 
             src={ErrorIcon} 
@@ -20,7 +20,6 @@ export default function NotFound() {
           />
         </div>
 
-        {/* 404 Text */}
         <div className="mb-6">
           <h1 className="text-8xl md:text-9xl font-bold text-primary-100 mb-4 tracking-tight">
             404
@@ -33,7 +32,6 @@ export default function NotFound() {
           </p>
         </div>
 
-        {/* Action Buttons */}
         <div className="flex flex-col sm:flex-row gap-4 justify-center items-center mt-8">
           <Link
             to="/"
@@ -58,7 +56,6 @@ export default function NotFound() {
           </Link>
         </div>
 
-        {/* Additional Help Text */}
         <div className="mt-12 pt-8 border-t border-gray-200">
           <p className="text-sm text-gray-500">
             {t('error.helpText')}{' '}
@@ -72,7 +69,6 @@ export default function NotFound() {
         </div>
       </div>
 
-      {/* Custom CSS for bounce animation */}
       <style>{`
         @keyframes bounce-slow {
           0%, 100% {

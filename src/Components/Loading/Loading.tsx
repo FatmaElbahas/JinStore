@@ -28,33 +28,28 @@ export default function Loading({
   return (
     <div className={containerClass}>
       <div className="flex flex-col items-center gap-6">
-        {/* Logo with pulse animation */}
         <div className="relative">
           <img 
             src={LOGO} 
             alt="JinStore Logo" 
             className={`${sizeClasses[size]} object-contain animate-pulse-slow`}
           />
-          {/* Rotating ring around logo */}
           <div className="absolute inset-0 -m-4">
             <div className={`${sizeClasses[size]} mx-auto border-4 border-primary-100 border-t-transparent rounded-full animate-spin-slow`}></div>
           </div>
         </div>
 
-        {/* Animated dots spinner */}
         <div className="flex gap-2">
           <div className="w-3 h-3 bg-primary-100 rounded-full animate-bounce-delay-0"></div>
           <div className="w-3 h-3 bg-primary-200 rounded-full animate-bounce-delay-1"></div>
           <div className="w-3 h-3 bg-primary-300 rounded-full animate-bounce-delay-2"></div>
         </div>
 
-        {/* Loading message */}
         <p className="text-gray-700 font-medium text-lg animate-pulse">
           {message || t('loading.message')}
         </p>
       </div>
 
-      {/* Custom CSS animations */}
       <style>{`
         @keyframes spin-slow {
           from {
@@ -112,7 +107,6 @@ export default function Loading({
   );
 }
 
-// Simple spinner version for inline use
 export function Spinner({ className = '' }: { className?: string }) {
   return (
     <div className={`inline-block ${className}`}>

@@ -9,7 +9,6 @@ export default function MobileMenu() {
   const { i18n } = useTranslation();
   const isRTL = i18n.language === 'ar';
 
-  // Prevent body scroll when menu is open
   useEffect(() => {
     if (isOpen) {
       document.body.style.overflow = 'hidden';
@@ -32,7 +31,6 @@ export default function MobileMenu() {
 
   return (
     <>
-      {/* Hamburger Button - Shows on mobile & tablet, hides on laptop */}
       <button
         onClick={handleOpen}
         className="lg:hidden p-2 text-gray-700 hover:bg-gray-100 rounded-lg transition-colors"
@@ -42,10 +40,8 @@ export default function MobileMenu() {
         <FontAwesomeIcon icon={faBars} className="text-xl" />
       </button>
 
-      {/* Mobile & Tablet Sidebar Full Screen */}
       {isOpen && (
         <>
-          {/* Backdrop for overlay effect */}
           <div 
             className="fixed inset-0 bg-black/20 z-40 lg:hidden"
             onClick={handleClose}
@@ -59,7 +55,6 @@ export default function MobileMenu() {
             aria-modal="true"
             aria-label={isRTL ? 'القائمة الرئيسية' : 'Main menu'}
           >
-            {/* Close Button - Fixed Position */}
             <div className="sticky top-0 w-full bg-primary-50 z-20 py-3 px-4 flex justify-end shadow-sm">
               <button
                 onClick={handleClose}
@@ -70,7 +65,6 @@ export default function MobileMenu() {
               </button>
             </div>
 
-            {/* Sidebar Content */}
             <Sidebar onLinkClick={handleClose} />
           </div>
         </>
