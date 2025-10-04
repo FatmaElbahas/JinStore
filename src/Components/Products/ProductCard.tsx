@@ -115,9 +115,7 @@ export default function ProductCard({
                 {[...Array(5)].map((_, i) => (
                   <span 
                     key={i} 
-                    style={{
-                      width: '14px',
-                      height: '14px',
+                    className="w-[14px] h-[14px]"
                       opacity: 1,
                       fontSize: '14px',
                       lineHeight: '14px',
@@ -148,9 +146,7 @@ export default function ProductCard({
                 ? 'text-white'
                 : 'bg-primary-100 text-white hover:bg-primary-200'
             }`}
-            style={inCart ? {
-              height: '44.59px',
-              opacity: 1,
+            className={inCart ? 'h-[44.59px] opacity-100' : 'h-[44.59px] opacity-50'}
               borderRadius: '8px',
               paddingTop: '11.3px',
               paddingRight: '21px',
@@ -174,9 +170,7 @@ export default function ProductCard({
             <FontAwesomeIcon
               icon={inWishlist ? faHeartSolid : faHeartRegular}
               className={inWishlist ? 'text-red-500' : 'text-gray-400'}
-              style={{
-                width: '12.51px',
-                height: '14px',
+              className="w-[12.51px] h-[14px]"
                 opacity: 1
               }}
             />

@@ -115,11 +115,7 @@ export default function Sidebar({ onLinkClick }: SidebarProps = {}) {
           <img 
             src={LOGO} 
             alt="JinStore Logo" 
-            className="object-contain max-h-20"
-            style={{
-              maxWidth: '100%',
-              height: 'auto'
-            }}
+            className="object-contain max-h-20 max-w-full"
           />
         </div>
         
@@ -128,10 +124,10 @@ export default function Sidebar({ onLinkClick }: SidebarProps = {}) {
             B
           </div>
           <div>
-            <p className="text-gray-900" style={{ fontSize: '15px', lineHeight: '22.5px', fontWeight: 500 }}>
+            <p className="text-gray-900 text-[15px] leading-[22.5px] font-medium">
               Showan Forohl
             </p>
-            <p className="text-xs text-gray-500" style={{ lineHeight: '18px', fontWeight: 400 }}>
+            <p className="text-xs text-gray-500 leading-[18px] font-normal">
               {t('sidebar.salesManager')}
             </p>
           </div>
@@ -161,7 +157,7 @@ export default function Sidebar({ onLinkClick }: SidebarProps = {}) {
                     />
                     <span className="flex-1 text-start">{item.label}</span>
                     {item.badge && (
-                      <span className="px-2 py-0.5 rounded-full text-xs font-medium align-middle" style={{ backgroundColor: '#05B171', color: 'white' }}>
+                      <span className="px-2 py-0.5 rounded-full text-xs font-medium align-middle bg-[#05B171] text-white">
                         {item.badge}
                       </span>
                     )}
@@ -185,19 +181,16 @@ export default function Sidebar({ onLinkClick }: SidebarProps = {}) {
                     <img 
                       src={item.icon} 
                       alt={item.label} 
-                      className="w-5 h-5 object-contain transition-all"
-                      style={{
-                        filter: isPathActive(item.path) ? 'brightness(0) invert(1)' : 'none'
-                      }}
+                      className={`w-5 h-5 object-contain transition-all ${
+                        isPathActive(item.path) ? 'brightness-0 invert' : ''
+                      }`}
                     />
                     <span className="flex-1 text-start">{item.label}</span>
                     {item.badge && (
                       <span 
-                        className="px-2 py-0.5 rounded-full text-xs font-medium align-middle"
-                        style={{
-                          backgroundColor: isPathActive(item.path) ? 'white' : '#05B171',
-                          color: isPathActive(item.path) ? '#05B171' : 'white'
-                        }}
+                        className={`px-2 py-0.5 rounded-full text-xs font-medium align-middle ${
+                          isPathActive(item.path) ? 'bg-white text-[#05B171]' : 'bg-[#05B171] text-white'
+                        }`}
                       >
                         {item.badge}
                       </span>

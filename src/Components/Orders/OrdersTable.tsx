@@ -46,19 +46,19 @@ export default function OrdersTable({ orders, selectedOrders, onSelectOrder, onS
               <th className={`px-2 opacity-100 text-gray-900 uppercase align-middle w-[12%] h-[34px] pt-2 pb-2 font-poppins font-medium text-xs leading-[18px] tracking-wider ${isRTL ? 'text-right' : 'text-left'}`}>
                 {t('orders.table.id')}
               </th>
-              <th className="px-2 opacity-100 text-gray-900 uppercase align-middle" style={{ width: '30%', height: '34px', paddingTop: '7.5px', paddingBottom: '8.5px', fontFamily: 'Poppins, sans-serif', fontWeight: 500, fontSize: '12px', lineHeight: '18px', letterSpacing: '1px', textAlign: isRTL ? 'right' : 'left' }}>
+              <th className={`px-2 opacity-100 text-gray-900 uppercase align-middle w-[30%] h-[34px] pt-2 pb-2 font-poppins font-medium text-xs leading-[18px] tracking-wider ${isRTL ? 'text-right' : 'text-left'}`}>
                 {t('orders.table.name')}
               </th>
-              <th className="px-2 opacity-100 text-gray-900 uppercase align-middle" style={{ width: '22%', height: '34px', paddingTop: '7.5px', paddingBottom: '8.5px', fontFamily: 'Poppins, sans-serif', fontWeight: 500, fontSize: '12px', lineHeight: '18px', letterSpacing: '1px', textAlign: isRTL ? 'right' : 'left' }}>
+              <th className={`px-2 opacity-100 text-gray-900 uppercase align-middle w-[22%] h-[34px] pt-2 pb-2 font-poppins font-medium text-xs leading-[18px] tracking-wider ${isRTL ? 'text-right' : 'text-left'}`}>
                 {t('orders.table.date')}
               </th>
-              <th className="px-2 opacity-100 text-gray-900 uppercase align-middle" style={{ width: '15%', height: '34px', paddingTop: '7.5px', paddingBottom: '8.5px', fontFamily: 'Poppins, sans-serif', fontWeight: 500, fontSize: '12px', lineHeight: '18px', letterSpacing: '1px', textAlign: isRTL ? 'right' : 'left' }}>
+              <th className={`px-2 opacity-100 text-gray-900 uppercase align-middle w-[15%] h-[34px] pt-2 pb-2 font-poppins font-medium text-xs leading-[18px] tracking-wider ${isRTL ? 'text-right' : 'text-left'}`}>
                 {t('orders.table.total')}
               </th>
-              <th className="px-2 opacity-100 text-gray-900 uppercase align-middle" style={{ width: '18%', height: '34px', paddingTop: '7.5px', paddingBottom: '8.5px', fontFamily: 'Poppins, sans-serif', fontWeight: 500, fontSize: '12px', lineHeight: '18px', letterSpacing: '1px', textAlign: isRTL ? 'right' : 'left' }}>
+              <th className={`px-2 opacity-100 text-gray-900 uppercase align-middle w-[18%] h-[34px] pt-2 pb-2 font-poppins font-medium text-xs leading-[18px] tracking-wider ${isRTL ? 'text-right' : 'text-left'}`}>
                 {t('orders.table.status')}
               </th>
-              <th className="opacity-100 text-gray-900 uppercase align-middle" style={{ width: '16%', height: '34px', paddingTop: '7.5px', paddingRight: '8px', paddingBottom: '8.5px', paddingLeft: '128.5px', fontFamily: 'Poppins, sans-serif', fontWeight: 500, fontSize: '12px', lineHeight: '18px', letterSpacing: '1px', textAlign: isRTL ? 'right' : 'left' }}>
+              <th className={`opacity-100 text-gray-900 uppercase align-middle w-[16%] h-[34px] pt-2 pb-2 pr-2 pl-32 font-poppins font-medium text-xs leading-[18px] tracking-wider ${isRTL ? 'text-right' : 'text-left'}`}>
                 {t('orders.table.actions')}
               </th>
             </tr>
@@ -68,36 +68,33 @@ export default function OrdersTable({ orders, selectedOrders, onSelectOrder, onS
               <tr 
                 key={order.id} 
                 onClick={() => onSelectOrder(order.id)}
-                className="bg-white hover:bg-gray-50 transition-colors opacity-100 rounded-lg cursor-pointer" 
-                style={{ height: '88.19px' }}
+                className="bg-white hover:bg-gray-50 transition-colors opacity-100 rounded-lg cursor-pointer h-[88.19px]"
               >
                 <td 
-                  className="opacity-100" 
-                  style={{ width: '8%', height: '34px', paddingTop: '9.8px', paddingRight: '8px', paddingBottom: '9.81px', paddingLeft: '8px' }}
+                  className="opacity-100 w-[8%] h-[34px] pt-[9.8px] px-2 pb-[9.81px]"
                   onClick={(e) => e.stopPropagation()}
                 >
                   <input
                     type="checkbox"
                     checked={selectedOrders.includes(order.id)}
                     onChange={() => onSelectOrder(order.id)}
-                    className="text-primary-100 opacity-100 border focus:ring-primary-100 cursor-pointer"
-                    style={{ width: '14.39px', height: '14.39px', borderRadius: '3px', borderWidth: '1px' }}
+                    className="text-primary-100 opacity-100 border focus:ring-primary-100 cursor-pointer w-[14.39px] h-[14.39px] rounded"
                     aria-label={`Select order ${order.id}`}
                   />
                 </td>
-                <td className="px-2 opacity-100 text-gray-900 align-middle" style={{ width: '12%', height: '34px', paddingTop: '7.5px', paddingBottom: '8.5px', fontFamily: 'Poppins, sans-serif', fontWeight: 400, fontSize: '14px', lineHeight: '21px', letterSpacing: '0%', textAlign: isRTL ? 'right' : 'left' }}>
+                <td className={`px-2 opacity-100 text-gray-900 align-middle w-[12%] h-[34px] pt-2 pb-2 font-poppins font-normal text-sm leading-[21px] tracking-normal ${isRTL ? 'text-right' : 'text-left'}`}>
                   {order.id}
                 </td>
-                <td className="px-2 opacity-100 text-gray-900 align-middle" style={{ width: '30%', height: '34px', paddingTop: '7.5px', paddingBottom: '8.5px', fontFamily: 'Poppins, sans-serif', fontWeight: 400, fontSize: '14px', lineHeight: '21px', letterSpacing: '0%', textAlign: isRTL ? 'right' : 'left' }}>
+                <td className={`px-2 opacity-100 text-gray-900 align-middle w-[30%] h-[34px] pt-2 pb-2 font-poppins font-normal text-sm leading-[21px] tracking-normal ${isRTL ? 'text-right' : 'text-left'}`}>
                   {order.name}
                 </td>
-                <td className="px-2 opacity-100 text-gray-500 align-middle" style={{ width: '22%', height: '34px', paddingTop: '7.5px', paddingBottom: '8.5px', fontFamily: 'Poppins, sans-serif', fontWeight: 400, fontSize: '14px', lineHeight: '21px', letterSpacing: '0%', textAlign: isRTL ? 'right' : 'left' }}>
+                <td className={`px-2 opacity-100 text-gray-500 align-middle w-[22%] h-[34px] pt-2 pb-2 font-poppins font-normal text-sm leading-[21px] tracking-normal ${isRTL ? 'text-right' : 'text-left'}`}>
                   {order.date}
                 </td>
-                <td className="px-2 opacity-100 text-gray-900 align-middle" style={{ width: '15%', height: '34px', paddingTop: '7.5px', paddingBottom: '8.5px', fontFamily: 'Poppins, sans-serif', fontWeight: 400, fontSize: '14px', lineHeight: '21px', letterSpacing: '0%', textAlign: isRTL ? 'right' : 'left' }}>
+                <td className={`px-2 opacity-100 text-gray-900 align-middle w-[15%] h-[34px] pt-2 pb-2 font-poppins font-normal text-sm leading-[21px] tracking-normal ${isRTL ? 'text-right' : 'text-left'}`}>
                   ${order.total}
                 </td>
-                <td className="px-2 opacity-100 align-middle" style={{ width: '18%', height: '34px', paddingTop: '7.5px', paddingBottom: '8.5px', fontFamily: 'Poppins, sans-serif', fontWeight: 400, fontSize: '14px', lineHeight: '21px', letterSpacing: '0%', textAlign: isRTL ? 'right' : 'left' }}>
+                <td className={`px-2 opacity-100 align-middle w-[18%] h-[34px] pt-2 pb-2 font-poppins font-normal text-sm leading-[21px] tracking-normal ${isRTL ? 'text-right' : 'text-left'}`}>
                   <OrderStatus status={order.status} />
                 </td>
                 <td 
@@ -229,43 +226,43 @@ export default function OrdersTable({ orders, selectedOrders, onSelectOrder, onS
 
             <div className="space-y-2.5">
               <div className="flex items-center gap-2">
-                <span className="text-xs text-gray-500 uppercase font-medium min-w-[60px]" style={{ fontFamily: 'Poppins, sans-serif' }}>
+                <span className="text-xs text-gray-500 uppercase font-medium min-w-[60px] font-poppins">
                   {t('orders.table.id')}:
                 </span>
-                <span className="text-gray-900 font-medium" style={{ fontFamily: 'Poppins, sans-serif', fontSize: '14px' }}>
+                <span className="text-gray-900 font-medium font-poppins text-sm">
                   {order.id}
                 </span>
               </div>
 
               <div className="flex items-center gap-2">
-                <span className="text-xs text-gray-500 uppercase font-medium min-w-[60px]" style={{ fontFamily: 'Poppins, sans-serif' }}>
+                <span className="text-xs text-gray-500 uppercase font-medium min-w-[60px] font-poppins">
                   {t('orders.table.name')}:
                 </span>
-                <span className="text-gray-900" style={{ fontFamily: 'Poppins, sans-serif', fontSize: '14px' }}>
+                <span className="text-gray-900 font-poppins text-sm">
                   {order.name}
                 </span>
               </div>
 
               <div className="flex items-center gap-2">
-                <span className="text-xs text-gray-500 uppercase font-medium min-w-[60px]" style={{ fontFamily: 'Poppins, sans-serif' }}>
+                <span className="text-xs text-gray-500 uppercase font-medium min-w-[60px] font-poppins">
                   {t('orders.table.date')}:
                 </span>
-                <span className="text-gray-500" style={{ fontFamily: 'Poppins, sans-serif', fontSize: '13px' }}>
+                <span className="text-gray-500 font-poppins text-[13px]">
                   {order.date}
                 </span>
               </div>
 
               <div className="flex items-center gap-2">
-                <span className="text-xs text-gray-500 uppercase font-medium min-w-[60px]" style={{ fontFamily: 'Poppins, sans-serif' }}>
+                <span className="text-xs text-gray-500 uppercase font-medium min-w-[60px] font-poppins">
                   {t('orders.table.total')}:
                 </span>
-                <span className="text-gray-900 font-medium" style={{ fontFamily: 'Poppins, sans-serif', fontSize: '14px' }}>
+                <span className="text-gray-900 font-medium font-poppins text-sm">
                   ${order.total}
                 </span>
               </div>
 
               <div className="flex items-center gap-2">
-                <span className="text-xs text-gray-500 uppercase font-medium min-w-[60px]" style={{ fontFamily: 'Poppins, sans-serif' }}>
+                <span className="text-xs text-gray-500 uppercase font-medium min-w-[60px] font-poppins">
                   {t('orders.table.status')}:
                 </span>
                 <OrderStatus status={order.status} />
